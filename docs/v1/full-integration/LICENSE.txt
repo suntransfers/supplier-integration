@@ -1,0 +1,27 @@
+SUNTRANSFERS SUPPLIER API SPEC LICENSE
+
+Copyright (c) 2025 Suntransfers
+
+This API specification ("Spec") is the proprietary design of Suntransfers. It defines the data models, endpoints, and integration behavior required for suppliers to connect with Suntransfers systems.
+
+Licensed Use:
+- Authorized suppliers and partners ("Licensees") are granted a non-exclusive, non-transferable, royalty-free license to use this Spec **solely for the purpose of implementing an API to integrate with Suntransfers**.
+- The Spec may be used only in connection with services provided to or through Suntransfers.
+
+Prohibited Use:
+- Reproduction, modification, publication, or distribution of this Spec for use outside of a direct integration with Suntransfers is strictly prohibited.
+- Licensees may not use the Spec to build APIs or systems for third-party platforms, competitors, or general commercial reuse.
+- No part of this Spec may be adapted or repurposed to offer services independent of Suntransfers.
+
+Ownership:
+- Suntransfers retains full ownership of the Spec and all associated intellectual property.
+- Use of this Spec does not grant any rights to Suntransfers branding, trademarks, or system internals.
+
+Termination:
+- This license is valid only for the duration of the supplier’s business relationship with Suntransfers.
+- It terminates automatically upon breach or upon termination of integration discussions.
+
+Disclaimer:
+THE SPECIFICATION IS PROVIDED "AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. SUNTRANSFERS DISCLAIMS ALL LIABILITY ARISING FROM IMPLEMENTATION OR USE OF THIS SPEC.
+
+For licensing questions or clarification, contact: lucas.dasilva@suntransfers.com

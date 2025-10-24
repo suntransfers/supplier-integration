@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "d3c1c0d8-bafa-496d-9cb8-556ac9f990a4",
+		"name": "Suntransfers Supplier Hub",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "865843"
+	},
+	"item": [
+		{
+			"name": "Create Booking Event",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('Status code is 201', () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test('Response body is empty', () => {",
+							"    pm.expect(pm.response.text()).to.eql('');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"eventType\": \"DRIVER_DEPARTED_TO_PICKUP\",\n  \"occurredAt\": \"2025-12-24T14:30:00+02:00\",\n  \"latitude\": 41.3851,\n  \"longitude\": 2.1734\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/v1/suppliers/{{supplierCode}}/bookings/{{bookingReference}}/events",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"suppliers",
+						"{{supplierCode}}",
+						"bookings",
+						"{{bookingReference}}",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Swagger",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/swagger/v1/swagger.json",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"swagger",
+						"v1",
+						"swagger.json"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{username}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "eventType",
+			"value": ""
+		},
+		{
+			"key": "occurredAt",
+			"value": ""
+		},
+		{
+			"key": "latitude",
+			"value": ""
+		},
+		{
+			"key": "longitude",
+			"value": ""
+		},
+		{
+			"key": "supplierCode",
+			"value": "YOUR_SUPPLIER_CODE"
+		},
+		{
+			"key": "bookingReference",
+			"value": "SUNTR_BOOKING_REFERENCE"
+		}
+	]
+}
