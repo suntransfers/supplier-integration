@@ -1,0 +1,119 @@
+{
+  "runtime": "Net90",
+  "documentGenerator": {
+    "fromDocument": {
+      "url": "../../docs/v1/st-spec-v1.json",
+      "output": null
+    }
+  },
+  "codeGenerators": {
+    "openApiToCSharpClient": {
+      "generateClientClasses": true,
+      "generateClientInterfaces": false,
+      "clientClassAccessModifier": "public",
+      "namespace": "SupplierHub.Integrations.STSPEC.v1",
+      "className": "StSpecApiClient",
+      "output": "./generated/csharp-nswag/STSPEC/v1/StSpecApiClient.cs",
+
+      "generateDtoTypes": true,
+      "generateContractsOutput": true,
+      "contractsNamespace": "SupplierHub.Integrations.STSPEC.v1.Models",
+      "contractsOutputFilePath": "./generated/csharp-nswag/STSPEC/v1/Models.cs",
+      "generateExceptionClasses": true,
+      "exceptionClass": "ApiException",
+      "typeAccessModifier": "public",
+
+      "injectHttpClient": true,
+      "disposeHttpClient": false,
+      "useHttpClientCreationMethod": false,
+      "httpClientType": "System.Net.Http.HttpClient",
+
+      "wrapDtoExceptions": false,
+      "useHttpRequestMessageCreationMethod": false,
+      
+      "useBaseUrl": true,
+      "generateBaseUrlProperty": true,
+      
+      "generateSyncMethods": false,
+      
+      "generateUpdateJsonSerializerSettingsMethod": true,
+      "exposeJsonSerializerSettings": false,
+      "jsonSerializerSettingsTransformationMethod": null,
+
+      "parameterDateTimeFormat": "s",
+      "serializeTypeInformation": false,
+      "queryNullValue": "",
+      "operationGenerationMode": "SingleClientFromOperationId",
+      "generateOptionalParameters": false,
+      "generateJsonMethods": false,
+      "wrapResponses": false,
+      "generateResponseClasses": true,
+      "requiredPropertiesMustBeDefined": true,
+
+      "dateType": "System.DateTimeOffset",
+      "dateTimeType": "System.DateTimeOffset",
+      "timeType": "System.TimeSpan",
+      "timeSpanType": "System.TimeSpan",
+
+      "arrayType": "System.Collections.Generic.IReadOnlyList",
+      "arrayInstanceType": "System.Collections.Generic.List",
+      "arrayBaseType": "System.Collections.Generic.IReadOnlyList",
+
+      "dictionaryType": "System.Collections.Generic.IDictionary",
+      "dictionaryInstanceType": "System.Collections.Generic.Dictionary",
+      "dictionaryBaseType": "System.Collections.Generic.IDictionary",
+
+      "parameterArrayType": "System.Collections.Generic.IReadOnlyList",
+      "parameterDictionaryType": "System.Collections.Generic.IDictionary",
+      "parameterDateFormat": "yyyy-MM-dd",
+
+      "responseClass": "SwaggerResponse",
+      "responseArrayType": "System.Collections.Generic.IReadOnlyList",
+      "responseDictionaryType": "System.Collections.Generic.IDictionary",
+      
+      "classStyle": "Poco",
+      "generateNativeRecords": true,
+      "generateDefaultValues": false,
+      "generateDataAnnotations": true,
+
+      "excludedTypeNames": [],
+      "handleReferences": false,
+      "generateImmutableArrayProperties": false,
+      "generateImmutableDictionaryProperties": false,
+
+      "clientBaseClass": null,
+      "configurationClass": null,
+      "suppressClientClassesOutput": false,
+      "suppressClientInterfacesOutput": false,
+      "clientBaseInterface": null,
+      "protectedMethods": [],
+      "generatePrepareRequestAndProcessResponseAsAsyncMethods": false,
+      "propertySetterAccessModifier": "",
+      "useRequiredKeyword": false,
+      "useRequestAndResponseSerializationSettings": false,
+      "includedOperationIds": [],
+      "additionalNamespaceUsages": [],
+      "additionalContractNamespaceUsages": [],
+      "enforceFlagEnums": false,
+      "wrapResponseMethods": [],
+      "jsonConverters": null,
+      "anyType": "object",
+      "jsonPolymorphicSerializationStyle": "NJsonSchema",
+      "excludedParameterNames": [],
+      "inlineNamedArrays": false,
+      "inlineNamedDictionaries": false,
+      "inlineNamedTuples": true,
+      "inlineNamedAny": false,
+      "generateOptionalPropertiesAsNullable": false,
+      "templateDirectory": null,
+      "serviceHost": null,
+      "serviceSchemes": null,
+      "newLineBehavior": "Auto",
+
+      "jsonLibrary": "SystemTextJson",
+      "targetFramework": "net9.0",
+      "generateNullableReferenceTypes": true,
+      "excludedOperationIds": []
+    }
+  }
+}

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>ST SPEC: Suntransfers Supplier API Specification Docs</title>
+  <meta charset="utf-8" />
+  <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+</head>
+
+<body>
+  <div id="redoc-container"></div>
+  <script>
+    Redoc.init('../../st-spec-v1.json', {}, document.getElementById('redoc-container'))
+      .catch(err => {
+        console.error('Redoc failed to render:', err);
+        document.body.innerHTML = '<pre>' + err.message + '</pre>';
+      });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Booking Events API Integration Guide</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="booking-events-api-integration-guide">Booking Events API Integration Guide</h1>
+<h2 id="overview">Overview</h2>
+<p>The Booking Events API allows suppliers to send real-time driver and booking event updates to Suntransfers. This enables
+tracking of transfer progress and improves customer experience.</p>
+<h2 id="endpoint-details">Endpoint Details</h2>
+<p><strong>Base URL (Staging):</strong> <code>https://supplierhub-api.suntransfers.biz</code><br>
+<strong>Endpoint:</strong> <code>POST /api/v1/suppliers/{supplierCode}/bookings/{bookingReference}/events</code><br>
+<strong>Authentication:</strong> Basic Authentication (credentials provided separately)</p>
+<h3 id="url-parameters">URL Parameters</h3>
+<ul>
+<li><strong>supplierCode</strong> (1-10 chars): Your unique supplier code provided by Suntransfers</li>
+<li><strong>bookingReference</strong> (1-32 chars): The Suntransfers booking reference (e.g., SUNTR_AB1234)</li>
+</ul>
+<h2 id="request-body">Request Body</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+<th>Validation</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>eventType</td>
+<td>string</td>
+<td>Yes</td>
+<td>Type of event (see Event Types below)</td>
+<td>One of: <code>DRIVER_DEPARTED_TO_PICKUP</code>, <code>DRIVER_ARRIVED_AT_PICKUP</code>, <code>DRIVER_SUBMITTED_CUSTOMER_NO_SHOW</code>, <code>DRIVER_DEPARTED_TO_DROPOFF</code>, <code>DRIVER_ARRIVED_AT_DROPOFF</code>, <code>DRIVER_LIVE_LOCATION</code></td>
+<td><code>DRIVER_ARRIVED_AT_PICKUP</code></td>
+</tr>
+<tr>
+<td>occurredAt</td>
+<td>datetime</td>
+<td>Yes</td>
+<td>When the event occurred</td>
+<td>ISO 8601 format</td>
+<td><code>2025-12-24T14:30:00Z</code> or<br><code>2025-12-24T16:30:00+02:00</code></td>
+</tr>
+<tr>
+<td>latitude</td>
+<td>number</td>
+<td>No*</td>
+<td>Event location latitude</td>
+<td>Range: -90 to 90</td>
+<td><code>41.3851</code></td>
+</tr>
+<tr>
+<td>longitude</td>
+<td>number</td>
+<td>No*</td>
+<td>Event location longitude</td>
+<td>Range: -180 to 180</td>
+<td><code>2.1734</code></td>
+</tr>
+</tbody>
+</table>
+<p>*Both <code>latitude</code> and <code>longitude</code> must be provided together or both omitted. We strongly encourage you to always provide
+it. Always required for the <code>DRIVER_LIVE_LOCATION</code> event.</p>
+<h3 id="event-types">Event Types</h3>
+<ul>
+<li><code>DRIVER_DEPARTED_TO_PICKUP</code> - Driver has left to pick up the customer</li>
+<li><code>DRIVER_ARRIVED_AT_PICKUP</code> - Driver has arrived at pickup location</li>
+<li><code>DRIVER_SUBMITTED_CUSTOMER_NO_SHOW</code> - Customer was not at pickup location</li>
+<li><code>DRIVER_DEPARTED_TO_DROPOFF</code> - Driver has left pickup with customer</li>
+<li><code>DRIVER_ARRIVED_AT_DROPOFF</code> - Driver has arrived at destination</li>
+<li><code>DRIVER_LIVE_LOCATION</code> - Real-time driver location update</li>
+</ul>
+<h2 id="sample-request">Sample Request</h2>
+<h3 id="curl-example">CURL Example</h3>
+<p>This call will execute silently with no response.</p>
+<pre class="hljs"><code><div>curl -X POST https://supplierhub-api.suntransfers.biz/api/v1/suppliers/YOUR_CODE/bookings/SUNTR_AB1234/events \
+  -H <span class="hljs-string">"Content-Type: application/json"</span> \
+  -H <span class="hljs-string">"Authorization: Basic <span class="hljs-variable">$(echo -n 'username:password' | base64)</span>"</span> \
+  -d <span class="hljs-string">'{
+    "eventType": "DRIVER_DEPARTED_TO_PICKUP",
+    "occurredAt": "2025-12-24T14:30:00Z",
+    "latitude": 41.3851,
+    "longitude": 2.1734
+  }'</span>
+</div></code></pre>
+<h2 id="response-codes">Response Codes</h2>
+<ul>
+<li><strong>201 Created</strong> - Event successfully recorded (empty response body)</li>
+<li><strong>400 Bad Request</strong> - Invalid request data or validation failure (returns JSON Problem Details - RFC 7807 with trace
+ID)</li>
+<li><strong>401 Unauthorized</strong> - Invalid or missing credentials (returns JSON Problem Details - RFC 7807 with trace ID)</li>
+<li><strong>500 Internal Server Error</strong> - Server error, please retry (returns JSON Problem Details - RFC 7807 with trace ID)</li>
+</ul>
+<p><strong>Note:</strong> When an error occurs, the response will include a trace ID that you can provide to our support team for
+troubleshooting.</p>
+<h2 id="testing--implementation">Testing &amp; Implementation</h2>
+<ol>
+<li>Use the provided credentials and staging URL to test your integration</li>
+<li>Test all event types relevant to your operations</li>
+<li>Once testing is complete, request production credentials and URL</li>
+</ol>
+<h2 id="custom-driver-events">Custom Driver Events</h2>
+<p>We understand that every integration is unique. Contact us if you:</p>
+<ul>
+<li>Have driver events not covered by our standard event types</li>
+<li>Use a completely different API structure or event format</li>
+<li>Need us to pull events from YOUR API instead of pushing to ours</li>
+<li>Have any other integration requirements</li>
+</ul>
+<p>We'll implement a custom solution with minimal effort on your side.</p>
+<h2 id="included-resources">Included Resources</h2>
+<ul>
+<li><strong>Postman Collection:</strong> <a href="./files/Suntransfers-Supplier-Hub.postman_collection.json">Import to quickly test the endpoint</a></li>
+<li><strong>Postman Environment:</strong> <a href="./files/Suntransfers-Staging.postman_environment.json">Pre-configured with Staging URL (add your credentials)</a></li>
+<li><strong>Swagger Document:</strong> <a href="https://supplierhub-api.suntransfers.biz/swagger/v1/swagger.json">https://supplierhub-api.suntransfers.biz/swagger/v1/swagger.json</a></li>
+<li><strong>Credentials:</strong> Provided separately for security</li>
+</ul>
+<h2 id="complete-integration">Complete Integration</h2>
+<p>If you're looking to implement the full Suntransfers Supplier API (Bookings, Amendments, Cancellations, Quotes, and Booking Events), refer to our <a href="../../full-integration/docs/">Full Integration</a> docs.</p>
+<h2 id="questions">Questions?</h2>
+<p>Contact <a href="mailto:lucas.dasilva@suntransfers.com">The Supplier Hub Team</a>.</p>
+
+</body>
+</html>

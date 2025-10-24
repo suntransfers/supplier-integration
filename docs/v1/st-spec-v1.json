@@ -1,0 +1,3208 @@
+{
+    "openapi": "3.0.4",
+    "info": {
+        "title": "ST SPEC: Suntransfers Supplier API Specification",
+        "description": "The Suntransfers Supplier API Specification (`ST SPEC v1`) is an OpenAPI-based standard definition to be implemented by Suntransfers' suppliers that wish a seamless integration capable of providing Booking creation, amendment, and cancellation in realtime.\nOptional capabilities include providing Booking Quotes and Booking Events (Driver Events).\n\nYou can scaffold in less than a minute all the code necessary for creating an API that follows this spec by leveraging OpenAPI Generators.\n\n1. Install: On MacOS `brew install openapi-generator` or `npm install -g @openapitools/openapi-generator-cli` elsewhere\n2. Find the server generator for your stack at [OpenAPI Server Generators](https://openapi-generator.tech/docs/generators#server-generators)\n3. Run `openapi-generator` (or `openapi-generator-cli`) `config-help -g <generator-name>` to see configuration options for your chosen generator\n4. Generate your API server: `openapi-generator` (or `openapi-generator-cli`) `generate -g <generator-name> -i ./st-spec-v1.json -o ./output`\n5. Implement your business logic in the generated code, working with the request and response models defined in the spec and generated automatically in the step above.\n\nYou can test your implementation by using our [Try it out](../try-it-out/) Swagger UI utility.\n\nIf you're interested only in sending `Driver Events` to Suntransfers (webhook), check our [Booking Events](../../booking-events/docs/) docs.",
+        "contact": {
+            "name": "The Supplier Hub Team",
+            "email": "lucas.dasilva@suntransfers.com",
+            "url": "https://suntransfers.github.io/supplier-hub-integration/v1/full-integration/docs/"
+        },
+        "license": {
+            "name": "License",
+            "url": "https://suntransfers.github.io/supplier-hub-integration/v1/full-integration/LICENSE.txt"
+        },
+        "version": "v1"
+    },
+    "servers": [
+        {
+            "url": "https://{domain}",
+            "description": "Your API server",
+            "variables": {
+                "domain": {
+                    "default": "your.domain.com",
+                    "description": "Enter your API domain (e.g., `api.supplier.com`)"
+                }
+            }
+        }
+    ],
+    "paths": {
+        "/v1/bookings": {
+            "post": {
+                "operationId": "CreateBooking",
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Creates a Booking.",
+                "description": "Requests to this endpoint that fail may be retried after a few minutes. See more in the Responses section. If the issue persists, the fallback integration mechanism will be used (A.K.A. the email or FTP delivered XML file).",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBookingRequest"
+                            },
+                            "examples": {
+                                "round-trip-booking": {
+                                    "summary": "Round-trip Booking",
+                                    "value": {
+                                        "bookingReference": "SUNTR_AB1234",
+                                        "leadPassenger": {
+                                            "firstName": "William",
+                                            "lastName": "Gallagher",
+                                            "email": "liam@gallagher-brothers.co",
+                                            "phoneNumber": "+44123456789"
+                                        },
+                                        "transfers": [
+                                            {
+                                                "status": "Created",
+                                                "origin": {
+                                                    "name": "Manchester airport",
+                                                    "translatedName": "Manchester airport",
+                                                    "id": "1234",
+                                                    "type": "Gateway",
+                                                    "countryCode": "UK",
+                                                    "gatewayCode": "MAN",
+                                                    "latitude": 53.365791,
+                                                    "longitude": -2.272487
+                                                },
+                                                "destination": {
+                                                    "name": "Manchester",
+                                                    "translatedName": "Manchester",
+                                                    "id": "4321",
+                                                    "type": "Resort",
+                                                    "countryCode": "UK",
+                                                    "latitude": 53.479363,
+                                                    "longitude": -2.248449
+                                                },
+                                                "vehicle": {
+                                                    "code": "premtx4",
+                                                    "type": "taxi",
+                                                    "title": "Premium Taxi",
+                                                    "isShared": false,
+                                                    "isWheelchairAccessible": false,
+                                                    "maxPassengers": 4
+                                                },
+                                                "passengers": {
+                                                    "adults": 1,
+                                                    "children": 2,
+                                                    "infants": 0,
+                                                    "total": 3,
+                                                    "childAges": [
+                                                        2,
+                                                        3
+                                                    ]
+                                                },
+                                                "accommodation": {
+                                                    "type": "Hotel",
+                                                    "name": "Hotel Football, Old Trafford, a Tribute Portfolio Hotel",
+                                                    "addressParts": [
+                                                        "Old Trafford 99, Sir Matt Busby Way, Stretford",
+                                                        "Manchester M16 0SZ, United Kingdom"
+                                                    ]
+                                                },
+                                                "transferDateTime": "2026-04-24T14:30:00+01:00",
+                                                "pickupDateTime": "2026-04-24T14:30:00+01:00",
+                                                "fromFlight": {
+                                                    "airline": "British Airways",
+                                                    "flightNumber": "BA2468",
+                                                    "flightNumberAirline": "BA",
+                                                    "flightNumberDigits": "2468",
+                                                    "originGateway": "LGW",
+                                                    "flightDateTime": "2026-04-24T14:00:00+01:00"
+                                                },
+                                                "hasCheckedLuggage": true,
+                                                "isVisaRequired": false,
+                                                "extras": [
+                                                    {
+                                                        "id": "5",
+                                                        "name": "Child booster seat (2+ years)",
+                                                        "translatedName": "Child booster seat (2+ years)",
+                                                        "quantity": 2,
+                                                        "unitRate": 5.95
+                                                    }
+                                                ],
+                                                "price": {
+                                                    "baseRate": 22.5,
+                                                    "extras": 11.9,
+                                                    "totalRate": 34.4
+                                                }
+                                            },
+                                            {
+                                                "status": "Created",
+                                                "origin": {
+                                                    "name": "Manchester",
+                                                    "translatedName": "Manchester",
+                                                    "id": "4321",
+                                                    "type": "Resort",
+                                                    "countryCode": "UK",
+                                                    "latitude": 53.479363,
+                                                    "longitude": -2.248449
+                                                },
+                                                "destination": {
+                                                    "name": "Manchester airport",
+                                                    "translatedName": "Manchester airport",
+                                                    "id": "1234",
+                                                    "type": "Gateway",
+                                                    "countryCode": "UK",
+                                                    "gatewayCode": "MAN",
+                                                    "latitude": 53.365791,
+                                                    "longitude": -2.272487
+                                                },
+                                                "vehicle": {
+                                                    "code": "premtx4",
+                                                    "type": "taxi",
+                                                    "title": "Premium Taxi",
+                                                    "isShared": false,
+                                                    "isWheelchairAccessible": false,
+                                                    "maxPassengers": 4
+                                                },
+                                                "passengers": {
+                                                    "adults": 1,
+                                                    "children": 2,
+                                                    "infants": 0,
+                                                    "total": 3,
+                                                    "childAges": [
+                                                        2,
+                                                        3
+                                                    ]
+                                                },
+                                                "accommodation": {
+                                                    "type": "Hotel",
+                                                    "name": "Hotel Football, Old Trafford, a Tribute Portfolio Hotel",
+                                                    "addressParts": [
+                                                        "Old Trafford 99, Sir Matt Busby Way, Stretford",
+                                                        "Manchester M16 0SZ, United Kingdom"
+                                                    ],
+                                                    "pickupName": "Cafe Football"
+                                                },
+                                                "transferDateTime": "2026-04-25T17:00:00+01:00",
+                                                "pickupDateTime": "2026-04-25T15:00:00+01:00",
+                                                "toFlight": {
+                                                    "airline": "British Airways",
+                                                    "flightNumber": "BA1357",
+                                                    "flightNumberAirline": "BA",
+                                                    "flightNumberDigits": "1357",
+                                                    "flightDateTime": "2026-04-25T19:00:00+01:00"
+                                                },
+                                                "hasCheckedLuggage": true,
+                                                "extras": [
+                                                    {
+                                                        "id": "5",
+                                                        "name": "Child booster seat (2+ years)",
+                                                        "translatedName": "Child booster seat (2+ years)",
+                                                        "quantity": 2,
+                                                        "unitRate": 5.95
+                                                    }
+                                                ],
+                                                "price": {
+                                                    "baseRate": 23.5,
+                                                    "extras": 11.9,
+                                                    "totalRate": 35.4
+                                                }
+                                            }
+                                        ]
+                                    }
+                                },
+                                "single-leg-booking": {
+                                    "summary": "Single leg Booking",
+                                    "value": {
+                                        "bookingReference": "SUNTR_AB1234",
+                                        "leadPassenger": {
+                                            "firstName": "William",
+                                            "lastName": "Gallagher",
+                                            "email": "liam@gallagher-brothers.co",
+                                            "phoneNumber": "+44123456789"
+                                        },
+                                        "transfers": [
+                                            {
+                                                "status": "Created",
+                                                "origin": {
+                                                    "name": "Manchester airport",
+                                                    "translatedName": "Manchester airport",
+                                                    "id": "1234",
+                                                    "type": "Gateway",
+                                                    "countryCode": "UK",
+                                                    "gatewayCode": "MAN",
+                                                    "latitude": 53.365791,
+                                                    "longitude": -2.272487
+                                                },
+                                                "destination": {
+                                                    "name": "Manchester",
+                                                    "translatedName": "Manchester",
+                                                    "id": "4321",
+                                                    "type": "Resort",
+                                                    "countryCode": "UK",
+                                                    "latitude": 53.479363,
+                                                    "longitude": -2.248449
+                                                },
+                                                "vehicle": {
+                                                    "code": "premtx4",
+                                                    "type": "taxi",
+                                                    "title": "Premium Taxi",
+                                                    "isShared": false,
+                                                    "isWheelchairAccessible": false,
+                                                    "maxPassengers": 4
+                                                },
+                                                "passengers": {
+                                                    "adults": 1,
+                                                    "children": 2,
+                                                    "infants": 0,
+                                                    "total": 3,
+                                                    "childAges": [
+                                                        2,
+                                                        3
+                                                    ]
+                                                },
+                                                "accommodation": {
+                                                    "type": "Hotel",
+                                                    "name": "Hotel Football, Old Trafford, a Tribute Portfolio Hotel",
+                                                    "addressParts": [
+                                                        "Old Trafford 99, Sir Matt Busby Way, Stretford",
+                                                        "Manchester M16 0SZ, United Kingdom"
+                                                    ]
+                                                },
+                                                "transferDateTime": "2026-04-24T14:30:00+01:00",
+                                                "pickupDateTime": "2026-04-24T14:30:00+01:00",
+                                                "fromFlight": {
+                                                    "airline": "British Airways",
+                                                    "flightNumber": "BA2468",
+                                                    "flightNumberAirline": "BA",
+                                                    "flightNumberDigits": "2468",
+                                                    "originGateway": "LGW",
+                                                    "flightDateTime": "2026-04-24T14:00:00+01:00"
+                                                },
+                                                "hasCheckedLuggage": true,
+                                                "isVisaRequired": false,
+                                                "extras": [
+                                                    {
+                                                        "id": "5",
+                                                        "name": "Child booster seat (2+ years)",
+                                                        "translatedName": "Child booster seat (2+ years)",
+                                                        "quantity": 2,
+                                                        "unitRate": 5.95
+                                                    }
+                                                ],
+                                                "price": {
+                                                    "baseRate": 22.5,
+                                                    "extras": 11.9,
+                                                    "totalRate": 34.4
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "`201 Created`: The Booking has been created. Signals that the creation has happened synchronously. That means that the Booking is already available and valid in the supplier's system. See `202` for the asynchronous version.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateBookingResponse"
+                                },
+                                "examples": {
+                                    "round-trip-booking": {
+                                        "summary": "Round-trip Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "SUNTR_AB1234/1",
+                                                "SUNTR_AB1234/2"
+                                            ]
+                                        }
+                                    },
+                                    "single-leg-booking": {
+                                        "summary": "Single leg Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "SUNTR_AB1234/1"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "`202 Accepted`: The request has been validated and queued for processing. Signals that the creation will be handled asynchronously. That means that the Booking is not available or valid in the supplier's system yet, but that it will done soon. See `201` for the synchronous version.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateBookingResponse"
+                                },
+                                "examples": {
+                                    "round-trip-booking": {
+                                        "summary": "Round-trip Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "0bc7049f-07e9-4e20-9962-ff204427cd60",
+                                                "e994f296-8294-46d1-84ff-f18f3fe37be1"
+                                            ]
+                                        }
+                                    },
+                                    "single-leg-booking": {
+                                        "summary": "Single leg Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "d927fb98-40e0-468b-9bf4-a9eb81278c47"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "`400 Bad Request`: The details of the issues found on the request are present in the `detail` property of the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "field-required": {
+                                        "summary": "Field required",
+                                        "value": {
+                                            "type": "validation-error",
+                                            "title": "Bad Request",
+                                            "status": 400,
+                                            "detail": "Field 'origin' is required.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "`401 Unauthorized`: Credentials are likely out of sync. Contact Suntransfers as soon as possible via our official email to synchronize credentials. Attention: DO NOT specify any details about username, password, or authentication method in the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "invalid-credentials": {
+                                        "summary": "Invalid credentials",
+                                        "value": {
+                                            "type": "authentication-error",
+                                            "title": "Unauthorized",
+                                            "status": 401,
+                                            "detail": "Invalid credentials.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "`500 Internal Server Error`: Suntransfers systems might retry this request later.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "internal-server-error": {
+                                        "summary": "Internal Server Error",
+                                        "value": {
+                                            "type": "internal-error",
+                                            "title": "Internal Server Error",
+                                            "status": 500,
+                                            "detail": "Error creating Booking record.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/bookings/{bookingReference}": {
+            "put": {
+                "operationId": "AmendBooking",
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Creates or amends a Booking.",
+                "description": "This operation should be idempotent. Requests to this endpoint that fail may be retried after a few minutes. See more in the Responses section. If the issue persists, the fallback integration mechanism will be used (A.K.A. the email or FTP delivered XML file).",
+                "parameters": [
+                    {
+                        "name": "bookingReference",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "maxLength": 32,
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AmendBookingRequest"
+                            },
+                            "examples": {
+                                "single-leg-booking": {
+                                    "summary": "Single leg Booking",
+                                    "value": {
+                                        "leadPassenger": {
+                                            "firstName": "William",
+                                            "lastName": "Gallagher",
+                                            "email": "liam@gallagher-brothers.co",
+                                            "phoneNumber": "+44123456789"
+                                        },
+                                        "modificationType": "Amendment",
+                                        "transfers": [
+                                            {
+                                                "status": "Modified",
+                                                "origin": {
+                                                    "name": "Manchester airport",
+                                                    "translatedName": "Manchester airport",
+                                                    "id": "1234",
+                                                    "type": "Gateway",
+                                                    "countryCode": "UK",
+                                                    "gatewayCode": "MAN",
+                                                    "latitude": 53.365791,
+                                                    "longitude": -2.272487
+                                                },
+                                                "destination": {
+                                                    "name": "Manchester",
+                                                    "translatedName": "Manchester",
+                                                    "id": "4321",
+                                                    "type": "Resort",
+                                                    "countryCode": "UK",
+                                                    "latitude": 53.479363,
+                                                    "longitude": -2.248449
+                                                },
+                                                "vehicle": {
+                                                    "code": "premtx4",
+                                                    "type": "taxi",
+                                                    "title": "Premium Taxi",
+                                                    "isShared": false,
+                                                    "isWheelchairAccessible": false,
+                                                    "maxPassengers": 4
+                                                },
+                                                "passengers": {
+                                                    "adults": 1,
+                                                    "children": 1,
+                                                    "infants": 0,
+                                                    "total": 2,
+                                                    "childAges": [
+                                                        3
+                                                    ]
+                                                },
+                                                "accommodation": {
+                                                    "type": "Hotel",
+                                                    "name": "Hotel Football, Old Trafford, a Tribute Portfolio Hotel",
+                                                    "addressParts": [
+                                                        "Old Trafford 99, Sir Matt Busby Way, Stretford",
+                                                        "Manchester M16 0SZ, United Kingdom"
+                                                    ]
+                                                },
+                                                "transferDateTime": "2026-04-24T14:30:00+01:00",
+                                                "pickupDateTime": "2026-04-24T14:30:00+01:00",
+                                                "fromFlight": {
+                                                    "airline": "British Airways",
+                                                    "flightNumber": "BA2468",
+                                                    "flightNumberAirline": "BA",
+                                                    "flightNumberDigits": "2468",
+                                                    "originGateway": "LGW",
+                                                    "flightDateTime": "2026-04-24T14:00:00+01:00"
+                                                },
+                                                "hasCheckedLuggage": true,
+                                                "isVisaRequired": false,
+                                                "extras": [
+                                                    {
+                                                        "id": "5",
+                                                        "name": "Child booster seat (2+ years)",
+                                                        "translatedName": "Child booster seat (2+ years)",
+                                                        "quantity": 1,
+                                                        "unitRate": 5.95
+                                                    }
+                                                ],
+                                                "price": {
+                                                    "baseRate": 22.5,
+                                                    "extras": 5.95,
+                                                    "totalRate": 28.45
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`200 OK`: The Booking has been amended. Signals that the amendment has happened synchronously. That means that the Booking and this update is already available and valid in the supplier's system. See `202` for the asynchronous version.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AmendBookingResponse"
+                                },
+                                "examples": {
+                                    "round-trip-booking": {
+                                        "summary": "Round-trip Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "SUNTR_AB1234/1",
+                                                "SUNTR_AB1234/2"
+                                            ]
+                                        }
+                                    },
+                                    "single-leg-booking": {
+                                        "summary": "Single leg Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "SUNTR_AB1234/1"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "`201 Created`: The Booking has been created. Signals that the creation has happened synchronously. That means that the Booking and this update is already available and valid in the supplier's system. See `202` for the asynchronous version.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AmendBookingResponse"
+                                },
+                                "examples": {
+                                    "round-trip-booking": {
+                                        "summary": "Round-trip Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "SUNTR_AB1234/1",
+                                                "SUNTR_AB1234/2"
+                                            ]
+                                        }
+                                    },
+                                    "single-leg-booking": {
+                                        "summary": "Single leg Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "SUNTR_AB1234/1"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "`202 Accepted`: The request has been validated and queued for processing. Signals that the creation/amendment will be handled asynchronously. That means that the Booking or this update is not available or valid in the supplier's system yet, but that it will done soon. See `201` for the synchronous version.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/AmendBookingResponse"
+                                },
+                                "examples": {
+                                    "round-trip-booking": {
+                                        "summary": "Round-trip Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "0bc7049f-07e9-4e20-9962-ff204427cd60",
+                                                "e994f296-8294-46d1-84ff-f18f3fe37be1"
+                                            ]
+                                        }
+                                    },
+                                    "single-leg-booking": {
+                                        "summary": "Single leg Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "d927fb98-40e0-468b-9bf4-a9eb81278c47"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "`400 Bad Request`: The details of the issues found on the request are present in the `detail` property of the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "field-required": {
+                                        "summary": "Field required",
+                                        "value": {
+                                            "type": "validation-error",
+                                            "title": "Bad Request",
+                                            "status": 400,
+                                            "detail": "Field 'origin' is required.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "`401 Unauthorized`: Credentials are likely out of sync. Contact Suntransfers as soon as possible via our official email to synchronize credentials. Attention: DO NOT specify any details about username, password, or authentication method in the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "invalid-credentials": {
+                                        "summary": "Invalid credentials",
+                                        "value": {
+                                            "type": "authentication-error",
+                                            "title": "Unauthorized",
+                                            "status": 401,
+                                            "detail": "Invalid credentials.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "`500 Internal Server Error`: Suntransfers systems might retry this request later.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "internal-server-error": {
+                                        "summary": "Internal Server Error",
+                                        "value": {
+                                            "type": "internal-error",
+                                            "title": "Internal Server Error",
+                                            "status": 500,
+                                            "detail": "Error modifying Booking record.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "operationId": "CancelBooking",
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Cancels a Booking.",
+                "description": "Requests to this endpoint that fail may be retried after a few minutes. See more in the Responses section. If the issue persists, the fallback integration mechanism will be used (A.K.A. the email or FTP delivered XML file).",
+                "parameters": [
+                    {
+                        "name": "bookingReference",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "maxLength": 32,
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CancelBookingRequest"
+                            },
+                            "examples": {
+                                "single-leg-booking": {
+                                    "summary": "Single leg Booking",
+                                    "value": {
+                                        "cancellationAuthor": "Customer",
+                                        "leadPassenger": {
+                                            "firstName": "William",
+                                            "lastName": "Gallagher",
+                                            "email": "liam@gallagher-brothers.co",
+                                            "phoneNumber": "+44123456789"
+                                        },
+                                        "transfers": [
+                                            {
+                                                "status": "Cancelled",
+                                                "origin": {
+                                                    "name": "Manchester airport",
+                                                    "translatedName": "Manchester airport",
+                                                    "id": "1234",
+                                                    "type": "Gateway",
+                                                    "countryCode": "UK",
+                                                    "gatewayCode": "MAN",
+                                                    "latitude": 53.365791,
+                                                    "longitude": -2.272487
+                                                },
+                                                "destination": {
+                                                    "name": "Manchester",
+                                                    "translatedName": "Manchester",
+                                                    "id": "4321",
+                                                    "type": "Resort",
+                                                    "countryCode": "UK",
+                                                    "latitude": 53.479363,
+                                                    "longitude": -2.248449
+                                                },
+                                                "vehicle": {
+                                                    "code": "premtx4",
+                                                    "type": "taxi",
+                                                    "title": "Premium Taxi",
+                                                    "isShared": false,
+                                                    "isWheelchairAccessible": false,
+                                                    "maxPassengers": 4
+                                                },
+                                                "passengers": {
+                                                    "adults": 1,
+                                                    "children": 2,
+                                                    "infants": 0,
+                                                    "total": 3,
+                                                    "childAges": [
+                                                        2,
+                                                        3
+                                                    ]
+                                                },
+                                                "accommodation": {
+                                                    "type": "Hotel",
+                                                    "name": "Hotel Football, Old Trafford, a Tribute Portfolio Hotel",
+                                                    "addressParts": [
+                                                        "Old Trafford 99, Sir Matt Busby Way, Stretford",
+                                                        "Manchester M16 0SZ, United Kingdom"
+                                                    ]
+                                                },
+                                                "transferDateTime": "2026-04-24T14:30:00+01:00",
+                                                "pickupDateTime": "2026-04-24T14:30:00+01:00",
+                                                "fromFlight": {
+                                                    "airline": "British Airways",
+                                                    "flightNumber": "BA2468",
+                                                    "flightNumberAirline": "BA",
+                                                    "flightNumberDigits": "2468",
+                                                    "originGateway": "LGW",
+                                                    "flightDateTime": "2026-04-24T14:00:00+01:00"
+                                                },
+                                                "hasCheckedLuggage": true,
+                                                "isVisaRequired": false,
+                                                "extras": [
+                                                    {
+                                                        "id": "5",
+                                                        "name": "Child booster seat (2+ years)",
+                                                        "translatedName": "Child booster seat (2+ years)",
+                                                        "quantity": 2,
+                                                        "unitRate": 5.95
+                                                    }
+                                                ],
+                                                "price": {
+                                                    "baseRate": 22.5,
+                                                    "extras": 11.9,
+                                                    "totalRate": 34.4
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "`200 OK`: The Booking has been cancelled. Signals that the cancellation has happened synchronously. That means that the Booking is already cancelled in the supplier's system.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CancelBookingResponse"
+                                },
+                                "examples": {
+                                    "round-trip-booking": {
+                                        "summary": "Round-trip Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "SUNTR_AB1234/1",
+                                                "SUNTR_AB1234/2"
+                                            ]
+                                        }
+                                    },
+                                    "single-leg-booking": {
+                                        "summary": "Single leg Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "supplierReferences": [
+                                                "SUNTR_AB1234/1"
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "202": {
+                        "description": "`202 Accepted`: The request has been validated and queued for processing. Signals that the cancellation will be handled asynchronously. That means that the Booking is not cancelled in the supplier's system yet, but that it will done soon. See `201` for the synchronous version.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CancelBookingResponse"
+                                },
+                                "examples": {
+                                    "round-trip-booking": {
+                                        "summary": "Round-trip Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234"
+                                        }
+                                    },
+                                    "single-leg-booking": {
+                                        "summary": "Single leg Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "`400 Bad Request`: The details of the issues found on the request are present in the `detail` property of the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "field-required": {
+                                        "summary": "Field required",
+                                        "value": {
+                                            "type": "validation-error",
+                                            "title": "Bad Request",
+                                            "status": 400,
+                                            "detail": "Field 'origin' is required.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "`401 Unauthorized`: Credentials are likely out of sync. Contact Suntransfers as soon as possible via our official email to synchronize credentials. Attention: DO NOT specify any details about username, password, or authentication method in the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "invalid-credentials": {
+                                        "summary": "Invalid credentials",
+                                        "value": {
+                                            "type": "authentication-error",
+                                            "title": "Unauthorized",
+                                            "status": 401,
+                                            "detail": "Invalid credentials.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "`404 Not Found`: The Booking was not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "not-found": {
+                                        "summary": "Not Found",
+                                        "value": {
+                                            "type": "resource-not-found",
+                                            "title": "Not Found",
+                                            "status": 404,
+                                            "detail": "Booking 'SUNTR_AB1234' not found.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "`500 Internal Server Error`: Suntransfers systems might retry this request later.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "internal-server-error": {
+                                        "summary": "Internal Server Error",
+                                        "value": {
+                                            "type": "internal-error",
+                                            "title": "Internal Server Error",
+                                            "status": 500,
+                                            "detail": "Error modifying Booking record.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "operationId": "GetBooking",
+                "tags": [
+                    "Booking"
+                ],
+                "summary": "Gets the current state of a Booking.",
+                "description": "Requests to this endpoint that fail may be retried depending on the `Response Code`. See more in the Responses section.",
+                "parameters": [
+                    {
+                        "name": "bookingReference",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "maxLength": 32,
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`200 OK`: Booking found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetBookingResponse"
+                                },
+                                "examples": {
+                                    "round-trip-booking": {
+                                        "summary": "Round-trip Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "status": "PartiallyModified",
+                                            "createdAtUtc": "2025-12-21T16:34:57Z",
+                                            "lastModifiedAtUtc": "2025-12-25T14:18:21Z",
+                                            "transfers": [
+                                                {
+                                                    "transferDateTime": "2025-12-28T17:30:00+00:00",
+                                                    "pickupDateTime": "2025-12-28T17:30:00+00:00",
+                                                    "supplierReference": "SUNTR_AB1234/1"
+                                                },
+                                                {
+                                                    "transferDateTime": "2025-12-31T18:45:00+00:00",
+                                                    "supplierReference": "SUNTR_AB1234/2"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "`400 Bad Request`: The details of the issues found on the request are present in the `detail` property of the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "invalid-booking-reference": {
+                                        "summary": "Invalid Booking reference",
+                                        "value": {
+                                            "type": "validation-error",
+                                            "title": "Bad Request",
+                                            "status": 400,
+                                            "detail": "Invalid Booking reference.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234567890123456789012345678901234567890"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "`401 Unauthorized`: Credentials are likely out of sync. Contact Suntransfers as soon as possible via our official email to synchronize credentials. Attention: DO NOT specify any details about username, password, or authentication method in the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "invalid-credentials": {
+                                        "summary": "Invalid credentials",
+                                        "value": {
+                                            "type": "authentication-error",
+                                            "title": "Unauthorized",
+                                            "status": 401,
+                                            "detail": "Invalid credentials.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "`404 Not Found`: The Booking was not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "not-found": {
+                                        "summary": "Not Found",
+                                        "value": {
+                                            "type": "resource-not-found",
+                                            "title": "Not Found",
+                                            "status": 404,
+                                            "detail": "Booking 'SUNTR_AB1234' not found.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "`500 Internal Server Error`: Suntransfers systems might retry this request later.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "internal-server-error": {
+                                        "summary": "Internal Server Error",
+                                        "value": {
+                                            "type": "internal-error",
+                                            "title": "Internal Server Error",
+                                            "status": 500,
+                                            "detail": "Error obtaining Booking record.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "`501 Not Implemented`: This operation is not supported by the API.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "not-implemented": {
+                                        "summary": "Not Implemented",
+                                        "value": {
+                                            "type": "operation-not-supported",
+                                            "title": "Not Implemented",
+                                            "status": 501,
+                                            "detail": "Operation not available.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/quotes": {
+            "post": {
+                "operationId": "CreateQuote",
+                "tags": [
+                    "Booking Quotes"
+                ],
+                "summary": "Creates a Booking Quote.",
+                "description": "Requests to this endpoint should reply as quickly as possible as the results are being awaited by our customers. Requests that fail may be retried after a few minutes. See more in the Responses section.",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/QuoteRequest"
+                            },
+                            "examples": {
+                                "round-trip-booking": {
+                                    "summary": "Round-trip Booking",
+                                    "value": {
+                                        "transfers": [
+                                            {
+                                                "origin": {
+                                                    "name": "Manchester airport",
+                                                    "translatedName": "Manchester airport",
+                                                    "id": "1234",
+                                                    "type": "Gateway",
+                                                    "countryCode": "UK",
+                                                    "gatewayCode": "MAN",
+                                                    "latitude": 53.365791,
+                                                    "longitude": -2.272487,
+                                                    "addressParts": [
+                                                        "Manchester Airport, Manchester M90 1QX, United Kingdom"
+                                                    ]
+                                                },
+                                                "destination": {
+                                                    "name": "Manchester",
+                                                    "translatedName": "Manchester",
+                                                    "id": "4321",
+                                                    "type": "Resort",
+                                                    "countryCode": "UK",
+                                                    "latitude": 53.479363,
+                                                    "longitude": -2.248449,
+                                                    "addressParts": [
+                                                        "Manchester, United Kingdom"
+                                                    ]
+                                                },
+                                                "vehicle": {
+                                                    "code": "premtx4",
+                                                    "type": "taxi",
+                                                    "title": "Premium Taxi",
+                                                    "isShared": false,
+                                                    "isWheelchairAccessible": false,
+                                                    "maxPassengers": 4
+                                                },
+                                                "passengers": {
+                                                    "adults": 1,
+                                                    "children": 2,
+                                                    "infants": 0,
+                                                    "total": 3,
+                                                    "childAges": [
+                                                        2,
+                                                        3
+                                                    ]
+                                                },
+                                                "transferDateTime": "2026-04-24T14:30:00+01:00",
+                                                "extras": [
+                                                    {
+                                                        "id": "5",
+                                                        "name": "Child booster seat (2+ years)",
+                                                        "translatedName": "Child booster seat (2+ years)",
+                                                        "quantity": 2,
+                                                        "unitRate": 5.95
+                                                    }
+                                                ]
+                                            },
+                                            {
+                                                "origin": {
+                                                    "name": "Manchester",
+                                                    "translatedName": "Manchester",
+                                                    "id": "4321",
+                                                    "type": "Resort",
+                                                    "countryCode": "UK",
+                                                    "latitude": 53.479363,
+                                                    "longitude": -2.248449,
+                                                    "addressParts": [
+                                                        "Manchester, United Kingdom"
+                                                    ]
+                                                },
+                                                "destination": {
+                                                    "name": "Manchester airport",
+                                                    "translatedName": "Manchester airport",
+                                                    "id": "1234",
+                                                    "type": "Gateway",
+                                                    "countryCode": "UK",
+                                                    "gatewayCode": "MAN",
+                                                    "latitude": 53.365791,
+                                                    "longitude": -2.272487,
+                                                    "addressParts": [
+                                                        "Manchester Airport, Manchester M90 1QX, United Kingdom"
+                                                    ]
+                                                },
+                                                "vehicle": {
+                                                    "code": "premtx4",
+                                                    "type": "taxi",
+                                                    "title": "Premium Taxi",
+                                                    "isShared": false,
+                                                    "isWheelchairAccessible": false,
+                                                    "maxPassengers": 4
+                                                },
+                                                "passengers": {
+                                                    "adults": 1,
+                                                    "children": 2,
+                                                    "infants": 0,
+                                                    "total": 3,
+                                                    "childAges": [
+                                                        2,
+                                                        3
+                                                    ]
+                                                },
+                                                "transferDateTime": "2026-04-25T17:00:00+01:00",
+                                                "extras": [
+                                                    {
+                                                        "id": "5",
+                                                        "name": "Child booster seat (2+ years)",
+                                                        "translatedName": "Child booster seat (2+ years)",
+                                                        "quantity": 2,
+                                                        "unitRate": 5.95
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "single-leg-booking": {
+                                    "summary": "Single leg Booking",
+                                    "value": {
+                                        "transfers": [
+                                            {
+                                                "origin": {
+                                                    "name": "Manchester airport",
+                                                    "translatedName": "Manchester airport",
+                                                    "id": "1234",
+                                                    "type": "Gateway",
+                                                    "countryCode": "UK",
+                                                    "gatewayCode": "MAN",
+                                                    "latitude": 53.365791,
+                                                    "longitude": -2.272487,
+                                                    "addressParts": [
+                                                        "Manchester Airport, Manchester M90 1QX, United Kingdom"
+                                                    ]
+                                                },
+                                                "destination": {
+                                                    "name": "Manchester",
+                                                    "translatedName": "Manchester",
+                                                    "id": "4321",
+                                                    "type": "Resort",
+                                                    "countryCode": "UK",
+                                                    "latitude": 53.479363,
+                                                    "longitude": -2.248449,
+                                                    "addressParts": [
+                                                        "Old Trafford 99, Sir Matt Busby Way, Stretford",
+                                                        "Manchester M16 0SZ, United Kingdom"
+                                                    ]
+                                                },
+                                                "vehicle": {
+                                                    "code": "premtx4",
+                                                    "type": "taxi",
+                                                    "title": "Premium Taxi",
+                                                    "isShared": false,
+                                                    "isWheelchairAccessible": false,
+                                                    "maxPassengers": 4
+                                                },
+                                                "passengers": {
+                                                    "adults": 1,
+                                                    "children": 2,
+                                                    "infants": 0,
+                                                    "total": 3,
+                                                    "childAges": [
+                                                        2,
+                                                        3
+                                                    ]
+                                                },
+                                                "transferDateTime": "2026-04-24T14:30:00+01:00",
+                                                "extras": [
+                                                    {
+                                                        "id": "5",
+                                                        "name": "Child booster seat (2+ years)",
+                                                        "translatedName": "Child booster seat (2+ years)",
+                                                        "quantity": 2,
+                                                        "unitRate": 5.95
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "`201 Created`: The Booking Quote has been created. Signals that the Quote or Quotes returned can be used later for creating a Booking with the same settings.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/QuoteResponse"
+                                },
+                                "examples": {
+                                    "round-trip-booking": {
+                                        "summary": "Round-trip Booking",
+                                        "value": {
+                                            "transfers": [
+                                                {
+                                                    "quotes": [
+                                                        {
+                                                            "id": "45132549872",
+                                                            "vehicle": {
+                                                                "code": "premtx4",
+                                                                "type": "taxi",
+                                                                "title": "Premium Taxi",
+                                                                "isShared": false,
+                                                                "isWheelchairAccessible": false,
+                                                                "maxPassengers": 4
+                                                            },
+                                                            "validUntilUtc": "2025-12-20T14:34:16Z",
+                                                            "price": {
+                                                                "baseRate": 22.5,
+                                                                "extras": 11.9,
+                                                                "nightSupplement": 0,
+                                                                "weekdaySupplement": 0,
+                                                                "totalRate": 34.4
+                                                            },
+                                                            "extras": [
+                                                                {
+                                                                    "id": "5",
+                                                                    "name": "Child booster seat (2+ years)",
+                                                                    "translatedName": "Child booster seat (2+ years)",
+                                                                    "quantity": 2,
+                                                                    "unitRate": 5.95
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                },
+                                                {
+                                                    "quotes": [
+                                                        {
+                                                            "id": "45132549873",
+                                                            "vehicle": {
+                                                                "code": "premtx4",
+                                                                "type": "taxi",
+                                                                "title": "Premium Taxi",
+                                                                "isShared": false,
+                                                                "isWheelchairAccessible": false,
+                                                                "maxPassengers": 4
+                                                            },
+                                                            "validUntilUtc": "2025-12-20T14:34:17Z",
+                                                            "price": {
+                                                                "baseRate": 22.5,
+                                                                "extras": 11.9,
+                                                                "nightSupplement": 0,
+                                                                "weekdaySupplement": 0,
+                                                                "totalRate": 34.4
+                                                            },
+                                                            "extras": [
+                                                                {
+                                                                    "id": "5",
+                                                                    "name": "Child booster seat (2+ years)",
+                                                                    "translatedName": "Child booster seat (2+ years)",
+                                                                    "quantity": 2,
+                                                                    "unitRate": 5.95
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "single-leg-booking": {
+                                        "summary": "Single leg Booking",
+                                        "value": {
+                                            "transfers": [
+                                                {
+                                                    "quotes": [
+                                                        {
+                                                            "id": "45132549874",
+                                                            "vehicle": {
+                                                                "code": "premtx4",
+                                                                "type": "taxi",
+                                                                "title": "Premium Taxi",
+                                                                "isShared": false,
+                                                                "isWheelchairAccessible": false,
+                                                                "maxPassengers": 4
+                                                            },
+                                                            "validUntilUtc": "2025-12-20T14:34:19Z",
+                                                            "price": {
+                                                                "baseRate": 22.5,
+                                                                "extras": 11.9,
+                                                                "nightSupplement": 0,
+                                                                "weekdaySupplement": 0,
+                                                                "totalRate": 34.4
+                                                            },
+                                                            "extras": [
+                                                                {
+                                                                    "id": "5",
+                                                                    "name": "Child booster seat (2+ years)",
+                                                                    "translatedName": "Child booster seat (2+ years)",
+                                                                    "quantity": 2,
+                                                                    "unitRate": 5.95
+                                                                }
+                                                            ]
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "`400 Bad Request`: The details of the issues found on the request are present in the `detail` property of the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "field-required": {
+                                        "summary": "Field required",
+                                        "value": {
+                                            "type": "validation-error",
+                                            "title": "Bad Request",
+                                            "status": 400,
+                                            "detail": "Field 'origin' is required.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "`401 Unauthorized`: Credentials are likely out of sync. Contact Suntransfers as soon as possible via our official email to synchronize credentials. Attention: DO NOT specify any details about username, password, or authentication method in the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "invalid-credentials": {
+                                        "summary": "Invalid credentials",
+                                        "value": {
+                                            "type": "authentication-error",
+                                            "title": "Unauthorized",
+                                            "status": 401,
+                                            "detail": "Invalid credentials.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "`500 Internal Server Error`: Suntransfers systems might retry this request later.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "internal-server-error": {
+                                        "summary": "Internal Server Error",
+                                        "value": {
+                                            "type": "internal-error",
+                                            "title": "Internal Server Error",
+                                            "status": 500,
+                                            "detail": "Error creating Booking record.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "`501 Not Implemented`: This operation is not supported by the API.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "not-implemented": {
+                                        "summary": "Not Implemented",
+                                        "value": {
+                                            "type": "operation-not-supported",
+                                            "title": "Not Implemented",
+                                            "status": 501,
+                                            "detail": "Operation not available.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/bookings/{bookingReference}/events": {
+            "get": {
+                "operationId": "GetBookingEvents",
+                "tags": [
+                    "Booking Events"
+                ],
+                "summary": "Gets Booking Events for a Booking leg.",
+                "description": "Requests to this endpoint that fail may be retried after a few minutes. See more in the Responses section.",
+                "parameters": [
+                    {
+                        "description": "The Suntransfers Booking reference identifier.",
+                        "name": "bookingReference",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "maxLength": 32,
+                            "minLength": 1,
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "The leg number of the Transfer within the Booking. Leg numbers start at 1.",
+                        "name": "leg",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 1,
+                            "maximum": 2
+                        }
+                    },
+                    {
+                        "description": "The sort direction of Booking Events (by `occurredAt`).",
+                        "name": "sort",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/SortDirection"
+                        }
+                    },
+                    {
+                        "description": "The starting local date and time to filter Booking Events by.",
+                        "name": "startingAt",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/DateTimeLocal"
+                        }
+                    },
+                    {
+                        "description": "The ending local date and time to filter Booking Events by.",
+                        "name": "endingAt",
+                        "in": "query",
+                        "schema": {
+                            "$ref": "#/components/schemas/DateTimeLocal"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "`200 OK`: Booking found. This Booking's events - if any - are listed in the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetBookingEventResponse"
+                                },
+                                "examples": {
+                                    "single-leg-booking": {
+                                        "summary": "Single leg Booking",
+                                        "value": {
+                                            "bookingReference": "SUNTR_AB1234",
+                                            "leg": 1,
+                                            "items": [
+                                                {
+                                                    "eventType": "DriverDepartedToPickup",
+                                                    "occurredAt": "2025-12-21T16:21:27+01:00"
+                                                },
+                                                {
+                                                    "eventType": "DriverArrivedAtPickup",
+                                                    "occurredAt": "2025-12-21T16:34:57+01:00",
+                                                    "latitude": 41.30194603272655,
+                                                    "longitude": 2.073144738176525
+                                                },
+                                                {
+                                                    "eventType": "DriverDepartedToDropoff",
+                                                    "occurredAt": "2025-12-21T16:39:12+01:00",
+                                                    "latitude": 41.30267916329261,
+                                                    "longitude": 2.074486676668636
+                                                },
+                                                {
+                                                    "eventType": "DriverLiveLocation",
+                                                    "occurredAt": "2025-12-21T16:41:10+01:00",
+                                                    "latitude": 41.3176412120721,
+                                                    "longitude": 2.077749806102846
+                                                },
+                                                {
+                                                    "eventType": "DriverLiveLocation",
+                                                    "occurredAt": "2025-12-21T16:42:11+01:00",
+                                                    "latitude": 41.325672567468494,
+                                                    "longitude": 2.078010107781384
+                                                },
+                                                {
+                                                    "eventType": "DriverLiveLocation",
+                                                    "occurredAt": "2025-12-21T16:43:11+01:00",
+                                                    "latitude": 41.332323365465626,
+                                                    "longitude": 2.086951407065701
+                                                },
+                                                {
+                                                    "eventType": "DriverArrivedAtDropoff",
+                                                    "occurredAt": "2025-12-21T16:56:17+01:00",
+                                                    "latitude": 41.346304695423235,
+                                                    "longitude": 2.108745780950962
+                                                }
+                                            ]
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "`400 Bad Request`: The details of the issues found on the request are present in the `detail` property of the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "invalid-booking-reference": {
+                                        "summary": "Invalid Booking reference",
+                                        "value": {
+                                            "type": "validation-error",
+                                            "title": "Bad Request",
+                                            "status": 400,
+                                            "detail": "Invalid Booking reference.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234567890123456789012345678901234567890/events"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "`401 Unauthorized`: Credentials are likely out of sync. Contact Suntransfers as soon as possible via our official email to synchronize credentials. Attention: DO NOT specify any details about username, password, or authentication method in the response.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "invalid-credentials": {
+                                        "summary": "Invalid credentials",
+                                        "value": {
+                                            "type": "authentication-error",
+                                            "title": "Unauthorized",
+                                            "status": 401,
+                                            "detail": "Invalid credentials.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234/events"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "`404 Not Found`: The Booking was not found.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "not-found": {
+                                        "summary": "Not Found",
+                                        "value": {
+                                            "type": "resource-not-found",
+                                            "title": "Not Found",
+                                            "status": 404,
+                                            "detail": "Booking 'SUNTR_AB1234' not found.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234/events"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "`500 Internal Server Error`: Suntransfers systems might retry this request later.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "internal-server-error": {
+                                        "summary": "Internal Server Error",
+                                        "value": {
+                                            "type": "internal-error",
+                                            "title": "Internal Server Error",
+                                            "status": 500,
+                                            "detail": "Error obtaining Booking record.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234/events"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "501": {
+                        "description": "`501 Not Implemented`: This operation is not supported by the API.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProblemDetails"
+                                },
+                                "examples": {
+                                    "not-implemented": {
+                                        "summary": "Not Implemented",
+                                        "value": {
+                                            "type": "operation-not-supported",
+                                            "title": "Not Implemented",
+                                            "status": 501,
+                                            "detail": "Operation not available.",
+                                            "instance": "https://supplier.com/v1/bookings/SUNTR_AB1234/events"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Accommodation": {
+                "description": "Details about the Accommodation related to a Transfer pickup or drop-off.",
+                "type": "object",
+                "properties": {
+                    "type": {
+                        "description": "The type of Accommodation.",
+                        "type": "string",
+                        "enum": [
+                            "Hotel",
+                            "Villa",
+                            "Apartment",
+                            "Campsite",
+                            "Other"
+                        ],
+                        "nullable": true
+                    },
+                    "name": {
+                        "description": "The name of the Accommodation.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "addressParts": {
+                        "description": "The distinct components of the Accommodation's address.",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    },
+                    "phone": {
+                        "description": "The phone number of the Accommodation.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "giataCode": {
+                        "description": "The GIATA code of the Accommodation.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 10,
+                        "nullable": true
+                    },
+                    "pickupName": {
+                        "description": "The locally-known name of the pickup point.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 250,
+                        "nullable": true
+                    },
+                    "pickupAddressParts": {
+                        "description": "The distinct components of the Accommodation's pickup address.",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "AgencyBookingDetails": {
+                "description": "Details about the Agency making the Booking.",
+                "type": "object",
+                "required": [
+                    "name"
+                ],
+                "properties": {
+                    "name": {
+                        "description": "The name of the Agency.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                    },
+                    "bookingReference": {
+                        "description": "The Agency's internal Booking reference. This is very often different from the Suntransfers Booking reference.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "AmendBookingRequest": {
+                "description": "Encapsulates the necessary information to create or amend an existing Booking.",
+                "required": [
+                    "leadPassenger",
+                    "transfers",
+                    "modificationType"
+                ],
+                "type": "object",
+                "properties": {
+                    "leadPassenger": {
+                        "description": "The specifics about the Lead Passenger of the Booking.",
+                        "$ref": "#/components/schemas/LeadPassenger"
+                    },
+                    "agency": {
+                        "description": "Details about the Agency making the Booking.",
+                        "type": "object",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/AgencyBookingDetails"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "transfers": {
+                        "description": "The list of Transfers associated with the Booking being amended or created.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Transfer"
+                        }
+                    },
+                    "modificationType": {
+                        "description": "The type of modification being made to the Booking.",
+                        "$ref": "#/components/schemas/ModificationType"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "AmendBookingResponse": {
+                "description": "Represents the result of a Booking amendment request, which can create or amend an existing Booking.",
+                "required": [
+                    "bookingReference"
+                ],
+                "type": "object",
+                "properties": {
+                    "bookingReference": {
+                        "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
+                        "$ref": "#/components/schemas/BookingReference"
+                    },
+                    "supplierReferences": {
+                        "description": "The Supplier's internal Transfer references or IDs.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SupplierReference"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "BookingEvent": {
+                "description": "Represents an event that happened in a Booking.",
+                "required": [
+                    "eventType",
+                    "occurredAt"
+                ],
+                "type": "object",
+                "properties": {
+                    "eventType": {
+                        "description": "The type of Booking Event.",
+                        "$ref": "#/components/schemas/BookingEventType"
+                    },
+                    "occurredAt": {
+                        "description": "The local date and time when the Booking Event occurred.",
+                        "$ref": "#/components/schemas/DateTimeLocal"
+                    },
+                    "latitude": {
+                        "description": "The Latitude coordinate of the Booking Event. Note that both `latitude` and `longitude` must be provided when `eventType` is `DriverLiveLocation`.",
+                        "type": "number",
+                        "format": "double",
+                        "minimum": -90,
+                        "maximum": 90,
+                        "nullable": true
+                    },
+                    "longitude": {
+                        "description": "The Longitude coordinate of the Booking Event. Note that both `latitude` and `longitude` must be provided when `eventType` is `DriverLiveLocation`.",
+                        "type": "number",
+                        "format": "double",
+                        "minimum": -180,
+                        "maximum": 180,
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "BookingEventType": {
+                "description": "The type of Booking Event.",
+                "enum": [
+                    "DriverDepartedToPickup",
+                    "DriverArrivedAtPickup",
+                    "DriverSubmittedCustomerNoShow",
+                    "DriverDepartedToDropoff",
+                    "DriverArrivedAtDropoff",
+                    "DriverLiveLocation"
+                ],
+                "type": "string"
+            },
+            "BookingReference": {
+                "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 32
+            },
+            "BookingStatus": {
+                "description": "The current status of the Booking.",
+                "enum": [
+                    "Created",
+                    "PartiallyModified",
+                    "Modified",
+                    "PartiallyCancelled",
+                    "Cancelled"
+                ],
+                "type": "string"
+            },
+            "CancelBookingRequest": {
+                "description": "Encapsulates the necessary information to cancel an existing Booking.",
+                "required": [
+                    "cancellationAuthor",
+                    "leadPassenger",
+                    "transfers"
+                ],
+                "type": "object",
+                "properties": {
+                    "cancellationAuthor": {
+                        "description": "The author of the cancellation.",
+                        "$ref": "#/components/schemas/CancellationAuthor"
+                    },
+                    "leadPassenger": {
+                        "description": "The specifics about the Lead Passenger of the Booking.",
+                        "$ref": "#/components/schemas/LeadPassenger"
+                    },
+                    "agency": {
+                        "description": "Details about the Agency making the Booking.",
+                        "type": "object",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/AgencyBookingDetails"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "transfers": {
+                        "description": "The list of Transfers associated with the Booking being cancelled.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Transfer"
+                        }
+                    },
+                    "notes": {
+                        "description": "Additional notes about the cancellation.",
+                        "maxLength": 500,
+                        "minLength": 1,
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CancelBookingResponse": {
+                "description": "Represents the result of a Booking cancellation request.",
+                "required": [
+                    "bookingReference"
+                ],
+                "type": "object",
+                "properties": {
+                    "bookingReference": {
+                        "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
+                        "$ref": "#/components/schemas/BookingReference"
+                    },
+                    "supplierReferences": {
+                        "description": "The Supplier's internal Transfer references or IDs.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SupplierReference"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CancellationAuthor": {
+                "description": "Identifies who is requesting the cancellation.",
+                "enum": [
+                    "Customer",
+                    "Supplier",
+                    "Suntransfers"
+                ],
+                "type": "string"
+            },
+            "CreateBookingRequest": {
+                "description": "Encapsulates the necessary information to create a Booking.",
+                "required": [
+                    "bookingReference",
+                    "leadPassenger",
+                    "transfers"
+                ],
+                "type": "object",
+                "properties": {
+                    "bookingReference": {
+                        "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
+                        "$ref": "#/components/schemas/BookingReference"
+                    },
+                    "leadPassenger": {
+                        "description": "The specifics about the Lead Passenger of the Booking.",
+                        "$ref": "#/components/schemas/LeadPassenger"
+                    },
+                    "agency": {
+                        "description": "Details about the Agency making the Booking.",
+                        "type": "object",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/AgencyBookingDetails"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "transfers": {
+                        "description": "The list of Transfers associated with the Booking being created.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Transfer"
+                        }
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateBookingResponse": {
+                "description": "Represents the result of a Booking creation request.",
+                "required": [
+                    "bookingReference"
+                ],
+                "type": "object",
+                "properties": {
+                    "bookingReference": {
+                        "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
+                        "$ref": "#/components/schemas/BookingReference"
+                    },
+                    "supplierReferences": {
+                        "description": "The Supplier's internal Transfer references or IDs.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SupplierReference"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "DateTimeLocal": {
+                "description": "An ISO 8601 date-time string in local time.",
+                "type": "string",
+                "format": "date-time",
+                "minLength": 19,
+                "maxLength": 33
+            },
+            "DateTimeUtc": {
+                "description": "An ISO 8601 date-time string in UTC.",
+                "type": "string",
+                "format": "date-time",
+                "minLength": 20,
+                "maxLength": 33
+            },
+            "DetailedLocation": {
+                "description": "Represents a Location. Differs from the Booking `Location` type in that it contains `addressParts` when `type` is `Resort` and also that you can trust the `latitude` and `longitude` values.",
+                "required": [
+                    "type",
+                    "countryCode",
+                    "latitude",
+                    "longitude"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "The internationally known English name.",
+                        "maxLength": 100,
+                        "minLength": 1,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "translatedName": {
+                        "description": "The translated name when the supplier's language is not English.",
+                        "maxLength": 100,
+                        "minLength": 1,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "type": {
+                        "description": "The type of the Location.",
+                        "$ref": "#/components/schemas/LocationType"
+                    },
+                    "id": {
+                        "description": "The Suntransfers' internal unique identifier for the Location.",
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "countryCode": {
+                        "description": "The two-letter ISO 3166-1 country code.",
+                        "maxLength": 2,
+                        "minLength": 2,
+                        "type": "string"
+                    },
+                    "gatewayCode": {
+                        "description": "The gateway code when `type` is `Gateway`. This is an IATA airport code for airports, a UN/LOCODE for ports, or a locally recognized code for train stations (e.g., `ESBCNSAN` for Barcelona Sants train station).",
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "latitude": {
+                        "description": "The approximate Latitude.",
+                        "type": "number",
+                        "format": "double",
+                        "minimum": -90,
+                        "maximum": 90
+                    },
+                    "longitude": {
+                        "description": "The approximate Longitude.",
+                        "type": "number",
+                        "format": "double",
+                        "minimum": -180,
+                        "maximum": 180
+                    },
+                    "addressParts": {
+                        "description": "The distinct components of the Address when `type` is `Resort`.",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Extra": {
+                "description": "Details about an Extra service added to a Transfer.",
+                "required": [
+                    "id",
+                    "name",
+                    "quantity",
+                    "translatedName",
+                    "unitRate"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "The Suntransfers Extra identifier.",
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "The name of the Extra.",
+                        "maxLength": 250,
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "translatedName": {
+                        "description": "The translated name of the Extra.",
+                        "maxLength": 250,
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "description": "The quantity of the Extra.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "maximum": 100
+                    },
+                    "unitRate": {
+                        "description": "The unit rate of the Extra.",
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "notes": {
+                        "description": "Additional notes about the Extra.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Flight": {
+                "description": "Details about a Flight associated with a Transfer.",
+                "type": "object",
+                "properties": {
+                    "airline": {
+                        "description": "The name of the airline operating the flight.",
+                        "maxLength": 100,
+                        "minLength": 1,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "flightNumber": {
+                        "description": "The flight number.",
+                        "maxLength": 20,
+                        "minLength": 1,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "flightNumberAirline": {
+                        "description": "The airline code associated with the flight number. This is result of the `flightNumber` data split.",
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "flightNumberDigits": {
+                        "description": "The digits associated with the flight number. This is result of the `flightNumber` data split.",
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "originGateway": {
+                        "description": "The code of the origin Gateway. See the property `gatewayCode` in the `Location` type for more details.",
+                        "maxLength": 50,
+                        "minLength": 1,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "flightDateTime": {
+                        "description": "The local date and time of the Flight.",
+                        "type": "string",
+                        "format": "date-time",
+                        "minLength": 19,
+                        "maxLength": 33,
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "GetBookingEventResponse": {
+                "description": "Represents the result of a request to get the Events of a Booking.",
+                "type": "object",
+                "required": [
+                    "bookingReference",
+                    "leg",
+                    "items"
+                ],
+                "properties": {
+                    "bookingReference": {
+                        "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
+                        "$ref": "#/components/schemas/BookingReference"
+                    },
+                    "leg": {
+                        "description": "The leg number of the Transfer within the Booking. Leg numbers start at 1.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1,
+                        "maximum": 2
+                    },
+                    "items": {
+                        "description": "The list of events that happened in association with the Booking.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BookingEvent"
+                        }
+                    }
+                },
+                "additionalProperties": false
+            },
+            "GetBookingResponse": {
+                "description": "Represents the result of a request to get the current status of a Booking.",
+                "required": [
+                    "bookingReference",
+                    "status",
+                    "createdAtUtc",
+                    "lastModifiedAtUtc",
+                    "transfers"
+                ],
+                "type": "object",
+                "properties": {
+                    "bookingReference": {
+                        "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
+                        "$ref": "#/components/schemas/BookingReference"
+                    },
+                    "status": {
+                        "description": "The current status of the Booking.",
+                        "$ref": "#/components/schemas/BookingStatus"
+                    },
+                    "createdAtUtc": {
+                        "description": "The UTC date and time when the Booking was created.",
+                        "$ref": "#/components/schemas/DateTimeUtc"
+                    },
+                    "lastModifiedAtUtc": {
+                        "description": "The UTC date and time when the Booking was last modified.",
+                        "$ref": "#/components/schemas/DateTimeUtc"
+                    },
+                    "transfers": {
+                        "description": "The list of Transfers associated with the Booking.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TransferResponse"
+                        }
+                    }
+                },
+                "additionalProperties": false
+            },
+            "LeadPassenger": {
+                "description": "The specifics about the Lead Passenger of the Booking.",
+                "required": [
+                    "firstName",
+                    "lastName",
+                    "email",
+                    "phoneNumber"
+                ],
+                "type": "object",
+                "properties": {
+                    "firstName": {
+                        "description": "The first name of the Lead Passenger.",
+                        "maxLength": 100,
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "lastName": {
+                        "description": "The last name of the Lead Passenger.",
+                        "maxLength": 100,
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "email": {
+                        "description": "Due to GDPR, this might not be our customer's email, rather a Suntransfers contact email.",
+                        "minLength": 5,
+                        "type": "string",
+                        "format": "email"
+                    },
+                    "phoneNumber": {
+                        "description": "The phone number of the Lead Passenger, including country code.",
+                        "maxLength": 25,
+                        "minLength": 1,
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Location": {
+                "description": "Details about a Location used in a Transfer's pickup or drop-off.",
+                "required": [
+                    "name",
+                    "translatedName",
+                    "type",
+                    "id",
+                    "countryCode",
+                    "latitude",
+                    "longitude"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "description": "The internationally known English name.",
+                        "maxLength": 100,
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "translatedName": {
+                        "description": "The translated name when the supplier's language is not English.",
+                        "maxLength": 100,
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "type": {
+                        "description": "The type of the Location.",
+                        "$ref": "#/components/schemas/LocationType"
+                    },
+                    "id": {
+                        "description": "The Suntransfers' internal unique identifier for the location.",
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "countryCode": {
+                        "description": "The two-letter ISO 3166-1 country code.",
+                        "maxLength": 2,
+                        "minLength": 2,
+                        "type": "string"
+                    },
+                    "gatewayCode": {
+                        "description": "The gateway code when `type` is `Gateway`. This is an IATA airport code for airports, a UN/LOCODE for ports, or a locally recognized code for train stations (e.g., `ESBCNSAN` for Barcelona Sants train station).",
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "latitude": {
+                        "description": "Informational only. Always rely on `name` and `translatedName` instead. Rationale: When `type` is `Resort`, this value cannot represent a point because a Resort refers to a region. When `type` is `Gateway`, this value is unreliable due to the complexity of airports and terminals.",
+                        "type": "number",
+                        "format": "double",
+                        "minimum": -90,
+                        "maximum": 90
+                    },
+                    "longitude": {
+                        "description": "Informational only. Always rely on `name` and `translatedName` instead. Rationale: When `type` is `Resort`, this value cannot represent a point because a Resort refers to a region. When `type` is `Gateway`, this value is unreliable due to the complexity of airports and terminals.",
+                        "type": "number",
+                        "format": "double",
+                        "minimum": -180,
+                        "maximum": 180
+                    }
+                },
+                "additionalProperties": false
+            },
+            "LocationType": {
+                "description": "`Gateway` denotes Airports, Ports, and Train Stations while `Resort` denotes Cities, Neighborhoods, Regions etc.",
+                "type": "string",
+                "enum": [
+                    "Gateway",
+                    "Resort"
+                ]
+            },
+            "ModificationType": {
+                "description": "The type of modification being made to a Booking.",
+                "type": "string",
+                "enum": [
+                    "Amendment",
+                    "TransferDeclined",
+                    "TransferNotProvided",
+                    "ExtraNotProvided",
+                    "LateCollection",
+                    "DriverNoShow"
+                ]
+            },
+            "Passengers": {
+                "description": "The specifics about the number of Passengers in the Transfer.",
+                "required": [
+                    "adults",
+                    "children",
+                    "infants",
+                    "total"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "description": "The total number of Passengers in the Transfer, that is, the sum of `adults`, `children`, and `infants`.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1,
+                        "maximum": 100
+                    },
+                    "adults": {
+                        "description": "The number of adults in the Transfer.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "maximum": 100
+                    },
+                    "children": {
+                        "description": "The number of children in the Transfer.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "maximum": 100
+                    },
+                    "infants": {
+                        "description": "The number of infants in the Transfer.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "maximum": 100
+                    },
+                    "childAges": {
+                        "description": "The ages, in years, of the children in the Transfer.",
+                        "type": "array",
+                        "nullable": true,
+                        "items": {
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 0,
+                            "maximum": 16
+                        }
+                    }
+                },
+                "additionalProperties": false
+            },
+            "Price": {
+                "description": "The pricing details of a Transfer.",
+                "required": [
+                    "baseRate",
+                    "totalRate"
+                ],
+                "type": "object",
+                "properties": {
+                    "baseRate": {
+                        "description": "The base rate for the Transfer.",
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "extras": {
+                        "description": "The total amount for any extra services added to the Transfer.",
+                        "type": "number",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "nightSupplement": {
+                        "description": "The additional charge for night Transfers.",
+                        "type": "number",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "weekdaySupplement": {
+                        "description": "The additional charge for weekday Transfers.",
+                        "type": "number",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "totalRate": {
+                        "description": "The total rate for the Transfer, that is, the sum of `baseRate`, `extras`, `nightSupplement`, and `weekdaySupplement`.",
+                        "type": "number",
+                        "format": "double"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "ProblemDetails": {
+                "description": "Represents the data structure defined in [RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457#name-members-of-a-problem-detail). As specified in the RFC, additional properties MAY be included to provide more context-specific error information such as a Trace ID.",
+                "type": "object",
+                "required": [
+                    "type",
+                    "title",
+                    "status",
+                    "detail",
+                    "instance"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "The type of the problem.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                    },
+                    "title": {
+                        "description": "A short, human-readable summary of the problem type.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                    },
+                    "status": {
+                        "description": "The HTTP Status Code generated by the server for this occurrence of the problem. MUST match the HTTP Status Code of the response.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 200,
+                        "maximum": 511
+                    },
+                    "detail": {
+                        "description": "A human-readable explanation specific to this occurrence of the problem.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2048
+                    },
+                    "instance": {
+                        "description": "A URI reference that identifies the specific occurrence of the problem.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 256
+                    }
+                },
+                "additionalProperties": true
+            },
+            "QuoteExtra": {
+                "description": "Details about an Extra service added to a Transfer.",
+                "required": [
+                    "id",
+                    "name",
+                    "translatedName",
+                    "quantity",
+                    "unitRate"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "The Suntransfers Extra identifier.",
+                        "maxLength": 10,
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "The name of the Extra.",
+                        "maxLength": 250,
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "translatedName": {
+                        "description": "The translated name of the Extra.",
+                        "maxLength": 250,
+                        "minLength": 1,
+                        "type": "string"
+                    },
+                    "quantity": {
+                        "description": "The quantity of the Extra.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1,
+                        "maximum": 100
+                    },
+                    "unitRate": {
+                        "description": "The unit rate of the Extra.",
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "notes": {
+                        "description": "Additional notes about the Extra.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1000,
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "QuotePassengers": {
+                "description": "The specifics about the number of Passengers in the Transfer.",
+                "required": [
+                    "adults",
+                    "children",
+                    "infants",
+                    "total"
+                ],
+                "type": "object",
+                "properties": {
+                    "total": {
+                        "description": "The total number of Passengers in the Transfer, that is, the sum of `adults`, `children`, and `infants`.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1,
+                        "maximum": 100
+                    },
+                    "adults": {
+                        "description": "The number of adults in the Transfer.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "maximum": 100
+                    },
+                    "children": {
+                        "description": "The number of children in the Transfer.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "maximum": 100
+                    },
+                    "infants": {
+                        "description": "The number of infants in the Transfer.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "maximum": 100
+                    },
+                    "childAges": {
+                        "description": "The ages, in years, of the children in the Transfer.",
+                        "type": "array",
+                        "nullable": true,
+                        "items": {
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 0,
+                            "maximum": 16
+                        }
+                    }
+                },
+                "additionalProperties": false
+            },
+            "QuoteRequest": {
+                "description": "Encapsulates the necessary information to request a Quote for one or more Transfers.",
+                "required": [
+                    "transfers"
+                ],
+                "type": "object",
+                "properties": {
+                    "transfers": {
+                        "description": "The list of Transfers to be priced.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/QuoteTransferRequest"
+                        }
+                    }
+                },
+                "additionalProperties": false
+            },
+            "QuoteResponse": {
+                "description": "Represents the result of a Quote request.",
+                "required": [
+                    "transfers"
+                ],
+                "type": "object",
+                "properties": {
+                    "transfers": {
+                        "description": "The list of Transfers for the requested Quotes.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/QuoteTransferResponse"
+                        }
+                    }
+                },
+                "additionalProperties": false
+            },
+            "QuoteTransferPrice": {
+                "description": "The pricing details of a Transfer.",
+                "required": [
+                    "baseRate",
+                    "totalRate"
+                ],
+                "type": "object",
+                "properties": {
+                    "baseRate": {
+                        "description": "The base rate for the Transfer.",
+                        "type": "number",
+                        "format": "double"
+                    },
+                    "extras": {
+                        "description": "The total amount for any extra services added to the Transfer.",
+                        "type": "number",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "nightSupplement": {
+                        "description": "The additional charge for night Transfers.",
+                        "type": "number",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "weekdaySupplement": {
+                        "description": "The additional charge for weekday Transfers.",
+                        "type": "number",
+                        "format": "double",
+                        "nullable": true
+                    },
+                    "totalRate": {
+                        "description": "The total rate for the Transfer, that is, the sum of `baseRate`, `extras`, `nightSupplement`, and `weekdaySupplement`.",
+                        "type": "number",
+                        "format": "double"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "QuoteTransferRequest": {
+                "description": "Represents a single Transfer to be priced.",
+                "required": [
+                    "origin",
+                    "destination",
+                    "vehicle",
+                    "passengers",
+                    "transferDateTime"
+                ],
+                "type": "object",
+                "properties": {
+                    "origin": {
+                        "description": "The origin of the Transfer.",
+                        "$ref": "#/components/schemas/DetailedLocation"
+                    },
+                    "destination": {
+                        "description": "The destination of the Transfer.",
+                        "$ref": "#/components/schemas/DetailedLocation"
+                    },
+                    "vehicle": {
+                        "description": "The Vehicle to be priced for the Transfer.",
+                        "$ref": "#/components/schemas/QuoteVehicle"
+                    },
+                    "passengers": {
+                        "description": "The specifics about the number of Passengers for the Transfer.",
+                        "$ref": "#/components/schemas/QuotePassengers"
+                    },
+                    "transferDateTime": {
+                        "description": "The local date and time of the Transfer.",
+                        "$ref": "#/components/schemas/DateTimeLocal"
+                    },
+                    "extras": {
+                        "description": "Extra services for the Transfer.",
+                        "type": "array",
+                        "nullable": true,
+                        "items": {
+                            "$ref": "#/components/schemas/QuoteExtra"
+                        }
+                    }
+                },
+                "additionalProperties": false
+            },
+            "QuoteTransferResponse": {
+                "description": "Groups the available Quotes for a Transfer.",
+                "required": [
+                    "quotes"
+                ],
+                "type": "object",
+                "properties": {
+                    "quotes": {
+                        "description": "The list of available Quotes for a Transfer.",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TransferQuote"
+                        }
+                    }
+                }
+            },
+            "QuoteVehicle": {
+                "description": "Details about a Vehicle required for a Transfer.",
+                "required": [
+                    "code",
+                    "type",
+                    "title",
+                    "isShared",
+                    "isWheelchairAccessible"
+                ],
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "The Suntransfers Vehicle Code.",
+                        "$ref": "#/components/schemas/VehicleCode"
+                    },
+                    "type": {
+                        "description": "The type of the Vehicle.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                    },
+                    "title": {
+                        "description": "The title of the Vehicle.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                    },
+                    "isShared": {
+                        "description": "Indicates if the Vehicle is of shared type (e.g., shuttle) or private type (e.g., taxi).",
+                        "type": "boolean"
+                    },
+                    "isWheelchairAccessible": {
+                        "description": "Indicates if the Vehicle is wheelchair accessible.",
+                        "type": "boolean"
+                    },
+                    "maxPassengers": {
+                        "description": "The maximum number of Passengers the Vehicle can accommodate. This property is `null` for shuttle-type Vehicles where the capacity is virtually unlimited.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "SortDirection": {
+                "description": "The direction to sort results, either ascending or descending.",
+                "enum": [
+                    "Asc",
+                    "Desc"
+                ],
+                "type": "string"
+            },
+            "SupplierReference": {
+                "description": "The Supplier's internal Transfer reference or ID.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 50
+            },
+            "Transfer": {
+                "description": "Represents a single Transfer.",
+                "required": [
+                    "status",
+                    "origin",
+                    "destination",
+                    "vehicle",
+                    "passengers",
+                    "transferDateTime",
+                    "price"
+                ],
+                "type": "object",
+                "properties": {
+                    "status": {
+                        "description": "The current status of the Transfer.",
+                        "$ref": "#/components/schemas/TransferStatus"
+                    },
+                    "origin": {
+                        "description": "The origin location of the Transfer.",
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    "destination": {
+                        "description": "The destination location of the Transfer.",
+                        "$ref": "#/components/schemas/Location"
+                    },
+                    "vehicle": {
+                        "description": "The Vehicle used for the Transfer.",
+                        "$ref": "#/components/schemas/Vehicle"
+                    },
+                    "passengers": {
+                        "description": "The specifics about the number of Passengers for the Transfer.",
+                        "$ref": "#/components/schemas/Passengers"
+                    },
+                    "accommodation": {
+                        "description": "The details of the Accommodation related to the Transfer.",
+                        "type": "object",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Accommodation"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "transferDateTime": {
+                        "description": "The local date and time of the Transfer.",
+                        "$ref": "#/components/schemas/DateTimeLocal"
+                    },
+                    "pickupDateTime": {
+                        "description": "The local date and time of the Pickup.",
+                        "type": "string",
+                        "format": "date-time",
+                        "minLength": 19,
+                        "maxLength": 33,
+                        "nullable": true
+                    },
+                    "latestPickupDateTime": {
+                        "description": "The latest possible local date and time of the Pickup.",
+                        "type": "string",
+                        "format": "date-time",
+                        "minLength": 19,
+                        "maxLength": 33,
+                        "nullable": true
+                    },
+                    "fromFlight": {
+                        "description": "The Flight associated with the Pickup when the Transfer is from a Gateway.",
+                        "type": "object",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Flight"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "toFlight": {
+                        "description": "The Flight associated with the Drop-off when the Transfer is to a Gateway.",
+                        "type": "object",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/Flight"
+                            }
+                        ],
+                        "nullable": true
+                    },
+                    "extras": {
+                        "description": "The list of Extra services added to the Transfer.",
+                        "type": "array",
+                        "nullable": true,
+                        "items": {
+                            "$ref": "#/components/schemas/Extra"
+                        }
+                    },
+                    "price": {
+                        "description": "The pricing details of the Transfer.",
+                        "$ref": "#/components/schemas/Price"
+                    },
+                    "hasCheckedLuggage": {
+                        "description": "Indicates if the passenger has checked luggage. That can help on determining the appropriate Vehicle and predicting the amount of time waiting at the Gateway.",
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "isVisaRequired": {
+                        "description": "Indicates if a Visa is required for the passenger. That can help on predicting the amount of time a driver might need to wait at the Gateway.",
+                        "type": "boolean",
+                        "nullable": true
+                    },
+                    "quoteId": {
+                        "description": "An identifier to a Quote previously requested.",
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "TransferQuote": {
+                "description": "Details about a Transfer Quote that can be used later to create a Booking under the same settings.",
+                "required": [
+                    "id",
+                    "vehicle",
+                    "validUntilUtc",
+                    "price"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "description": "An identifier of the Quote that can be used later to create a Booking under the same settings.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 1024
+                    },
+                    "vehicle": {
+                        "description": "The Vehicle priced in the Quote.",
+                        "$ref": "#/components/schemas/QuoteVehicle"
+                    },
+                    "validUntilUtc": {
+                        "description": "The UTC date and time until when the Quote is valid.",
+                        "$ref": "#/components/schemas/DateTimeUtc"
+                    },
+                    "price": {
+                        "description": "The pricing details of the Transfer.",
+                        "$ref": "#/components/schemas/QuoteTransferPrice"
+                    },
+                    "subSupplierName": {
+                        "description": "The name of the Sub-Supplier providing the Transfer.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100,
+                        "nullable": true
+                    },
+                    "extras": {
+                        "description": "The list of Extra services added to the Transfer.",
+                        "type": "array",
+                        "nullable": true,
+                        "items": {
+                            "$ref": "#/components/schemas/QuoteExtra"
+                        }
+                    }
+                },
+                "additionalProperties": false
+            },
+            "TransferResponse": {
+                "description": "Represents a Transfer in a Booking.",
+                "type": "object",
+                "required": [
+                    "transferDateTime"
+                ],
+                "properties": {
+                    "transferDateTime": {
+                        "description": "The local date and time of the Transfer.",
+                        "$ref": "#/components/schemas/DateTimeLocal"
+                    },
+                    "pickupDateTime": {
+                        "description": "The local date and time of the Pickup.",
+                        "type": "string",
+                        "format": "date-time",
+                        "minLength": 19,
+                        "maxLength": 33,
+                        "nullable": true
+                    },
+                    "supplierReference": {
+                        "description": "The Supplier's internal Transfer reference or ID.",
+                        "type": "string",
+                        "allOf": [
+                            {
+                                "$ref": "#/components/schemas/SupplierReference"
+                            }
+                        ],
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "TransferStatus": {
+                "description": "The current status of the Transfer.",
+                "type": "string",
+                "enum": [
+                    "Created",
+                    "Modified",
+                    "Cancelled"
+                ]
+            },
+            "Vehicle": {
+                "description": "Details about a Vehicle required for a Transfer.",
+                "required": [
+                    "code",
+                    "type",
+                    "title",
+                    "isShared",
+                    "isWheelchairAccessible"
+                ],
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "description": "The Suntransfers Vehicle Code.",
+                        "$ref": "#/components/schemas/VehicleCode"
+                    },
+                    "type": {
+                        "description": "The type of the Vehicle.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                    },
+                    "title": {
+                        "description": "The title of the Vehicle.",
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                    },
+                    "isShared": {
+                        "description": "Indicates if the Vehicle is of shared type (e.g., shuttle) or private type (e.g., taxi).",
+                        "type": "boolean"
+                    },
+                    "isWheelchairAccessible": {
+                        "description": "Indicates if the Vehicle is wheelchair accessible.",
+                        "type": "boolean"
+                    },
+                    "maxPassengers": {
+                        "description": "The maximum number of Passengers the Vehicle can accommodate. This property is `null` for shuttle-type Vehicles where the capacity is virtually unlimited.",
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1,
+                        "maximum": 100,
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "VehicleCode": {
+                "description": "The Suntransfers Vehicle Code.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 30
+            }
+        },
+        "securitySchemes": {
+            "Basic": {
+                "type": "http",
+                "scheme": "basic",
+                "description": "`Authorization` header with a value in the format `Basic base64(username:password)`"
+            }
+        }
+    },
+    "security": [
+        {
+            "Basic": []
+        }
+    ]
+}
