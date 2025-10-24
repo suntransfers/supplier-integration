@@ -6,11 +6,11 @@
         "contact": {
             "name": "The Supplier Hub Team",
             "email": "lucas.dasilva@suntransfers.com",
-            "url": "https://suntransfers.github.io/supplier-hub-integration/v1/full-integration/docs/"
+            "url": "https://suntransfers.github.io/supplier-integration/v1/full-integration/docs/"
         },
         "license": {
             "name": "License",
-            "url": "https://suntransfers.github.io/supplier-hub-integration/v1/full-integration/LICENSE.txt"
+            "url": "https://suntransfers.github.io/supplier-integration/v1/full-integration/LICENSE.txt"
         },
         "version": "v1"
     },

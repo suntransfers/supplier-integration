@@ -96,4 +96,4 @@ If you're looking to implement the full Suntransfers Supplier API (Bookings, Ame
 
 ## Questions?
 
-Contact [The Supplier Hub Team](mailto:lucas.dasilva@suntransfers.com).
+Contact [The Supplier Hub Team](mailto:lucas.dasilva@suntransfers.com) via email.
