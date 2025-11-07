@@ -1012,11 +1012,13 @@
                                             "transfers": [
                                                 {
                                                     "transferDateTime": "2025-12-28T17:30:00+00:00",
+                                                    "status": "Created",
                                                     "pickupDateTime": "2025-12-28T17:30:00+00:00",
                                                     "supplierReference": "SUNTR_AB1234/1"
                                                 },
                                                 {
                                                     "transferDateTime": "2025-12-31T18:45:00+00:00",
+                                                    "status": "Modified",
                                                     "supplierReference": "SUNTR_AB1234/2"
                                                 }
                                             ]
@@ -3102,12 +3104,17 @@
                 "description": "Represents a Transfer in a Booking.",
                 "type": "object",
                 "required": [
-                    "transferDateTime"
+                    "transferDateTime",
+                    "status"
                 ],
                 "properties": {
                     "transferDateTime": {
                         "description": "The local date and time of the Transfer.",
                         "$ref": "#/components/schemas/DateTimeLocal"
+                    },
+                    "status": {
+                        "description": "The current status of the Transfer.",
+                        "$ref": "#/components/schemas/TransferStatus"
                     },
                     "pickupDateTime": {
                         "description": "The local date and time of the Pickup.",
