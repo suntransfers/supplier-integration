@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-16"?>
+<xs:schema elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="booking" type="XmlBooking" />
+  <xs:complexType name="XmlBooking">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="reference" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="agency_name" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="agency_reference" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="customer" type="XmlCustomer" />
+      <xs:element minOccurs="1" maxOccurs="1" name="lead_passenger" type="XmlLeadPassenger" />
+      <xs:element minOccurs="1" maxOccurs="1" name="transfers" type="ArrayOfXmlTransfer" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="XmlCustomer">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="name" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="surname" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="XmlLeadPassenger">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="name" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="surname" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="email" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="mobile" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfXmlTransfer">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="transfer" type="XmlTransfer" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="XmlTransfer">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="transfer_document" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="transfer_rate" type="xs:decimal" />
+      <xs:element minOccurs="1" maxOccurs="1" name="status" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="creation_date" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="vehicle" type="XmlVehicle" />
+      <xs:element minOccurs="1" maxOccurs="1" name="passengers" type="XmlPassengers" />
+      <xs:element minOccurs="1" maxOccurs="1" name="origin" type="XmlLocation" />
+      <xs:element minOccurs="1" maxOccurs="1" name="destination" type="XmlLocation" />
+      <xs:element minOccurs="0" maxOccurs="1" name="extras" nillable="true" type="ArrayOfXmlExtra" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="XmlVehicle">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="code" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="title" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="max_passengers" nillable="true" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="type" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="XmlPassengers">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="total_passengers" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="number_children" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="number_babies" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="child_ages" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="XmlLocation">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="id" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="name" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="pickup_time" type="xs:string" />
+      <xs:element minOccurs="0" maxOccurs="1" name="flight" nillable="true" type="XmlFlight" />
+      <xs:element minOccurs="0" maxOccurs="1" name="accommodation" nillable="true" type="XmlAccommodation" />
+    </xs:sequence>
+    <xs:attribute name="type" type="xs:string" />
+  </xs:complexType>
+  <xs:complexType name="XmlFlight">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="airline" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="flight_number" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="flight_number_airline" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="flight_number_digits" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="date" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="origin_airport" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="XmlAccommodation">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="name" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="address" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="pickup_name" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="pickup_address" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="giata_code" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="ArrayOfXmlExtra">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="unbounded" name="extra" type="XmlExtra" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="XmlExtra">
+    <xs:sequence>
+      <xs:element minOccurs="1" maxOccurs="1" name="name" type="xs:string" />
+      <xs:element minOccurs="1" maxOccurs="1" name="quantity" type="xs:int" />
+      <xs:element minOccurs="1" maxOccurs="1" name="rate" type="xs:decimal" />
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
