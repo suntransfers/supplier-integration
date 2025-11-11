@@ -46,6 +46,7 @@
                                 "round-trip-booking": {
                                     "summary": "Round-trip Booking",
                                     "value": {
+                                        "supplierCode": "SUP123",
                                         "bookingReference": "SUNTR_AB1234",
                                         "leadPassenger": {
                                             "firstName": "William",
@@ -207,6 +208,7 @@
                                 "single-leg-booking": {
                                     "summary": "Single leg Booking",
                                     "value": {
+                                        "supplierCode": "SUP123",
                                         "bookingReference": "SUNTR_AB1234",
                                         "leadPassenger": {
                                             "firstName": "William",
@@ -308,6 +310,7 @@
                                     "round-trip-booking": {
                                         "summary": "Round-trip Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "SUNTR_AB1234/1",
@@ -318,6 +321,7 @@
                                     "single-leg-booking": {
                                         "summary": "Single leg Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "SUNTR_AB1234/1"
@@ -339,6 +343,7 @@
                                     "round-trip-booking": {
                                         "summary": "Round-trip Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "0bc7049f-07e9-4e20-9962-ff204427cd60",
@@ -349,6 +354,7 @@
                                     "single-leg-booking": {
                                         "summary": "Single leg Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "d927fb98-40e0-468b-9bf4-a9eb81278c47"
@@ -459,6 +465,7 @@
                                 "single-leg-booking": {
                                     "summary": "Single leg Booking",
                                     "value": {
+                                        "supplierCode": "SUP123",
                                         "leadPassenger": {
                                             "firstName": "William",
                                             "lastName": "Gallagher",
@@ -559,6 +566,7 @@
                                     "round-trip-booking": {
                                         "summary": "Round-trip Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "SUNTR_AB1234/1",
@@ -569,6 +577,7 @@
                                     "single-leg-booking": {
                                         "summary": "Single leg Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "SUNTR_AB1234/1"
@@ -590,6 +599,7 @@
                                     "round-trip-booking": {
                                         "summary": "Round-trip Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "SUNTR_AB1234/1",
@@ -600,6 +610,7 @@
                                     "single-leg-booking": {
                                         "summary": "Single leg Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "SUNTR_AB1234/1"
@@ -621,6 +632,7 @@
                                     "round-trip-booking": {
                                         "summary": "Round-trip Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "0bc7049f-07e9-4e20-9962-ff204427cd60",
@@ -631,6 +643,7 @@
                                     "single-leg-booking": {
                                         "summary": "Single leg Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "d927fb98-40e0-468b-9bf4-a9eb81278c47"
@@ -739,6 +752,7 @@
                                 "single-leg-booking": {
                                     "summary": "Single leg Booking",
                                     "value": {
+                                        "supplierCode": "SUP123",
                                         "cancellationAuthor": "Customer",
                                         "leadPassenger": {
                                             "firstName": "William",
@@ -840,6 +854,7 @@
                                     "round-trip-booking": {
                                         "summary": "Round-trip Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "SUNTR_AB1234/1",
@@ -850,6 +865,7 @@
                                     "single-leg-booking": {
                                         "summary": "Single leg Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "supplierReferences": [
                                                 "SUNTR_AB1234/1"
@@ -871,12 +887,14 @@
                                     "round-trip-booking": {
                                         "summary": "Round-trip Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234"
                                         }
                                     },
                                     "single-leg-booking": {
                                         "summary": "Single leg Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234"
                                         }
                                     }
@@ -991,6 +1009,15 @@
                             "minLength": 1,
                             "type": "string"
                         }
+                    },
+                    {
+                        "description": "The code of the Supplier of the Booking.",
+                        "name": "supplierCode",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/SupplierCode"
+                        }
                     }
                 ],
                 "responses": {
@@ -1005,6 +1032,7 @@
                                     "round-trip-booking": {
                                         "summary": "Round-trip Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "status": "PartiallyModified",
                                             "createdAtUtc": "2025-12-21T16:34:57Z",
@@ -1162,6 +1190,7 @@
                                     "value": {
                                         "transfers": [
                                             {
+                                                "supplierCode": "SUP123",
                                                 "origin": {
                                                     "name": "Manchester airport",
                                                     "translatedName": "Manchester airport",
@@ -1217,6 +1246,7 @@
                                                 ]
                                             },
                                             {
+                                                "supplierCode": "SUP123",
                                                 "origin": {
                                                     "name": "Manchester",
                                                     "translatedName": "Manchester",
@@ -1279,6 +1309,7 @@
                                     "value": {
                                         "transfers": [
                                             {
+                                                "supplierCode": "SUP123",
                                                 "origin": {
                                                     "name": "Manchester airport",
                                                     "translatedName": "Manchester airport",
@@ -1357,6 +1388,7 @@
                                                 {
                                                     "quotes": [
                                                         {
+                                                            "supplierCode": "SUP123",
                                                             "id": "45132549872",
                                                             "vehicle": {
                                                                 "code": "premtx4",
@@ -1389,6 +1421,7 @@
                                                 {
                                                     "quotes": [
                                                         {
+                                                            "supplierCode": "SUP123",
                                                             "id": "45132549873",
                                                             "vehicle": {
                                                                 "code": "premtx4",
@@ -1428,6 +1461,7 @@
                                                 {
                                                     "quotes": [
                                                         {
+                                                            "supplierCode": "SUP123",
                                                             "id": "45132549874",
                                                             "vehicle": {
                                                                 "code": "premtx4",
@@ -1576,6 +1610,15 @@
                         }
                     },
                     {
+                        "description": "The code of the Supplier of the Booking.",
+                        "name": "supplierCode",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/SupplierCode"
+                        }
+                    },
+                    {
                         "description": "The leg number of the Transfer within the Booking. Leg numbers start at 1.",
                         "name": "leg",
                         "in": "query",
@@ -1625,6 +1668,7 @@
                                     "single-leg-booking": {
                                         "summary": "Single leg Booking",
                                         "value": {
+                                            "supplierCode": "SUP123",
                                             "bookingReference": "SUNTR_AB1234",
                                             "leg": 1,
                                             "items": [
@@ -1880,12 +1924,17 @@
             "AmendBookingRequest": {
                 "description": "Encapsulates the necessary information to create or amend an existing Booking.",
                 "required": [
+                    "supplierCode",
                     "leadPassenger",
                     "transfers",
                     "modificationType"
                 ],
                 "type": "object",
                 "properties": {
+                    "supplierCode": {
+                        "description": "The code of the Supplier of the Booking.",
+                        "$ref": "#/components/schemas/SupplierCode"
+                    },
                     "leadPassenger": {
                         "description": "The specifics about the Lead Passenger of the Booking.",
                         "$ref": "#/components/schemas/LeadPassenger"
@@ -1917,10 +1966,15 @@
             "AmendBookingResponse": {
                 "description": "Represents the result of a Booking amendment request, which can create or amend an existing Booking.",
                 "required": [
+                    "supplierCode",
                     "bookingReference"
                 ],
                 "type": "object",
                 "properties": {
+                    "supplierCode": {
+                        "description": "The code of the Supplier of the Booking.",
+                        "$ref": "#/components/schemas/SupplierCode"
+                    },
                     "bookingReference": {
                         "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
                         "$ref": "#/components/schemas/BookingReference"
@@ -2003,12 +2057,17 @@
             "CancelBookingRequest": {
                 "description": "Encapsulates the necessary information to cancel an existing Booking.",
                 "required": [
+                    "supplierCode",
                     "cancellationAuthor",
                     "leadPassenger",
                     "transfers"
                 ],
                 "type": "object",
                 "properties": {
+                    "supplierCode": {
+                        "description": "The code of the Supplier of the Booking.",
+                        "$ref": "#/components/schemas/SupplierCode"
+                    },
                     "cancellationAuthor": {
                         "description": "The author of the cancellation.",
                         "$ref": "#/components/schemas/CancellationAuthor"
@@ -2047,10 +2106,15 @@
             "CancelBookingResponse": {
                 "description": "Represents the result of a Booking cancellation request.",
                 "required": [
+                    "supplierCode",
                     "bookingReference"
                 ],
                 "type": "object",
                 "properties": {
+                    "supplierCode": {
+                        "description": "The code of the Supplier of the Booking.",
+                        "$ref": "#/components/schemas/SupplierCode"
+                    },
                     "bookingReference": {
                         "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
                         "$ref": "#/components/schemas/BookingReference"
@@ -2078,12 +2142,17 @@
             "CreateBookingRequest": {
                 "description": "Encapsulates the necessary information to create a Booking.",
                 "required": [
+                    "supplierCode",
                     "bookingReference",
                     "leadPassenger",
                     "transfers"
                 ],
                 "type": "object",
                 "properties": {
+                    "supplierCode": {
+                        "description": "The code of the Supplier of the Booking.",
+                        "$ref": "#/components/schemas/SupplierCode"
+                    },
                     "bookingReference": {
                         "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
                         "$ref": "#/components/schemas/BookingReference"
@@ -2115,10 +2184,15 @@
             "CreateBookingResponse": {
                 "description": "Represents the result of a Booking creation request.",
                 "required": [
+                    "supplierCode",
                     "bookingReference"
                 ],
                 "type": "object",
                 "properties": {
+                    "supplierCode": {
+                        "description": "The code of the Supplier of the Booking.",
+                        "$ref": "#/components/schemas/SupplierCode"
+                    },
                     "bookingReference": {
                         "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
                         "$ref": "#/components/schemas/BookingReference"
@@ -2326,11 +2400,16 @@
                 "description": "Represents the result of a request to get the Events of a Booking.",
                 "type": "object",
                 "required": [
+                    "supplierCode",
                     "bookingReference",
                     "leg",
                     "items"
                 ],
                 "properties": {
+                    "supplierCode": {
+                        "description": "The code of the Supplier of the Booking.",
+                        "$ref": "#/components/schemas/SupplierCode"
+                    },
                     "bookingReference": {
                         "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
                         "$ref": "#/components/schemas/BookingReference"
@@ -2355,6 +2434,7 @@
             "GetBookingResponse": {
                 "description": "Represents the result of a request to get the current status of a Booking.",
                 "required": [
+                    "supplierCode",
                     "bookingReference",
                     "status",
                     "createdAtUtc",
@@ -2363,6 +2443,10 @@
                 ],
                 "type": "object",
                 "properties": {
+                    "supplierCode": {
+                        "description": "The code of the Supplier of the Booking.",
+                        "$ref": "#/components/schemas/SupplierCode"
+                    },
                     "bookingReference": {
                         "description": "The Suntransfers Booking reference identifier. This is currently a string starting with 'SUNTR_' followed by alphanumeric characters.",
                         "$ref": "#/components/schemas/BookingReference"
@@ -2826,6 +2910,7 @@
             "QuoteTransferRequest": {
                 "description": "Represents a single Transfer to be priced.",
                 "required": [
+                    "supplierCode",
                     "origin",
                     "destination",
                     "vehicle",
@@ -2834,6 +2919,10 @@
                 ],
                 "type": "object",
                 "properties": {
+                    "supplierCode": {
+                        "description": "The code of the Supplier of the Transfer.",
+                        "$ref": "#/components/schemas/SupplierCode"
+                    },
                     "origin": {
                         "description": "The origin of the Transfer.",
                         "$ref": "#/components/schemas/DetailedLocation"
@@ -2934,6 +3023,12 @@
                     "Desc"
                 ],
                 "type": "string"
+            },
+            "SupplierCode": {
+                "description": "The Supplier's code with Suntransfers.",
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 10
             },
             "SupplierReference": {
                 "description": "The Supplier's internal Transfer reference or ID.",
@@ -3057,6 +3152,7 @@
             "TransferQuote": {
                 "description": "Details about a Transfer Quote that can be used later to create a Booking under the same settings.",
                 "required": [
+                    "supplierCode",
                     "id",
                     "vehicle",
                     "validUntilUtc",
@@ -3064,6 +3160,10 @@
                 ],
                 "type": "object",
                 "properties": {
+                    "supplierCode": {
+                        "description": "The code of the Supplier of the Transfer.",
+                        "$ref": "#/components/schemas/SupplierCode"
+                    },
                     "id": {
                         "description": "An identifier of the Quote that can be used later to create a Booking under the same settings.",
                         "type": "string",
