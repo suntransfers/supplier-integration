@@ -1895,8 +1895,7 @@
                         },
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "AgencyBookingDetails": {
                 "description": "Details about the Agency making the Booking.",
@@ -1918,8 +1917,7 @@
                         "maxLength": 100,
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "AmendBookingRequest": {
                 "description": "Encapsulates the necessary information to create or amend an existing Booking.",
@@ -1960,8 +1958,7 @@
                         "description": "The type of modification being made to the Booking.",
                         "$ref": "#/components/schemas/ModificationType"
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "AmendBookingResponse": {
                 "description": "Represents the result of a Booking amendment request, which can create or amend an existing Booking.",
@@ -1987,8 +1984,7 @@
                         },
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "BookingEvent": {
                 "description": "Represents an event that happened in a Booking.",
@@ -2022,8 +2018,7 @@
                         "maximum": 180,
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "BookingEventType": {
                 "description": "The type of Booking Event.",
@@ -2100,8 +2095,7 @@
                         "type": "string",
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "CancelBookingResponse": {
                 "description": "Represents the result of a Booking cancellation request.",
@@ -2127,8 +2121,7 @@
                         },
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "CancellationAuthor": {
                 "description": "Identifies who is requesting the cancellation.",
@@ -2178,8 +2171,7 @@
                             "$ref": "#/components/schemas/Transfer"
                         }
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "CreateBookingResponse": {
                 "description": "Represents the result of a Booking creation request.",
@@ -2205,8 +2197,7 @@
                         },
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "DateTimeLocal": {
                 "description": "An ISO 8601 date-time string in local time.",
@@ -2292,8 +2283,7 @@
                         },
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "Extra": {
                 "description": "Details about an Extra service added to a Transfer.",
@@ -2343,8 +2333,7 @@
                         "maxLength": 1000,
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "Flight": {
                 "description": "Details about a Flight associated with a Transfer.",
@@ -2393,8 +2382,7 @@
                         "maxLength": 33,
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "GetBookingEventResponse": {
                 "description": "Represents the result of a request to get the Events of a Booking.",
@@ -2428,8 +2416,7 @@
                             "$ref": "#/components/schemas/BookingEvent"
                         }
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "GetBookingResponse": {
                 "description": "Represents the result of a request to get the current status of a Booking.",
@@ -2470,8 +2457,7 @@
                             "$ref": "#/components/schemas/TransferResponse"
                         }
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "LeadPassenger": {
                 "description": "The specifics about the Lead Passenger of the Booking.",
@@ -2507,8 +2493,7 @@
                         "minLength": 1,
                         "type": "string"
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "Location": {
                 "description": "Details about a Location used in a Transfer's pickup or drop-off.",
@@ -2572,8 +2557,7 @@
                         "minimum": -180,
                         "maximum": 180
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "LocationType": {
                 "description": "`Gateway` denotes Airports, Ports, and Train Stations while `Resort` denotes Cities, Neighborhoods, Regions etc.",
@@ -2644,8 +2628,7 @@
                             "maximum": 16
                         }
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "Price": {
                 "description": "The pricing details of a Transfer.",
@@ -2683,8 +2666,7 @@
                         "type": "number",
                         "format": "double"
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "ProblemDetails": {
                 "description": "Represents the data structure defined in [RFC 9457](https://datatracker.ietf.org/doc/html/rfc9457#name-members-of-a-problem-detail). As specified in the RFC, additional properties MAY be included to provide more context-specific error information such as a Trace ID.",
@@ -2728,8 +2710,7 @@
                         "minLength": 1,
                         "maxLength": 256
                     }
-                },
-                "additionalProperties": true
+                }
             },
             "QuoteExtra": {
                 "description": "Details about an Extra service added to a Transfer.",
@@ -2779,8 +2760,7 @@
                         "maxLength": 1000,
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "QuotePassengers": {
                 "description": "The specifics about the number of Passengers in the Transfer.",
@@ -2831,8 +2811,7 @@
                             "maximum": 16
                         }
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "QuoteRequest": {
                 "description": "Encapsulates the necessary information to request a Quote for one or more Transfers.",
@@ -2848,8 +2827,7 @@
                             "$ref": "#/components/schemas/QuoteTransferRequest"
                         }
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "QuoteResponse": {
                 "description": "Represents the result of a Quote request.",
@@ -2865,8 +2843,7 @@
                             "$ref": "#/components/schemas/QuoteTransferResponse"
                         }
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "QuoteTransferPrice": {
                 "description": "The pricing details of a Transfer.",
@@ -2904,8 +2881,7 @@
                         "type": "number",
                         "format": "double"
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "QuoteTransferRequest": {
                 "description": "Represents a single Transfer to be priced.",
@@ -2951,8 +2927,7 @@
                             "$ref": "#/components/schemas/QuoteExtra"
                         }
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "QuoteTransferResponse": {
                 "description": "Groups the available Quotes for a Transfer.",
@@ -3013,8 +2988,7 @@
                         "maximum": 100,
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "SortDirection": {
                 "description": "The direction to sort results, either ascending or descending.",
@@ -3146,8 +3120,7 @@
                         "type": "string",
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "TransferQuote": {
                 "description": "Details about a Transfer Quote that can be used later to create a Booking under the same settings.",
@@ -3197,8 +3170,7 @@
                             "$ref": "#/components/schemas/QuoteExtra"
                         }
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "TransferResponse": {
                 "description": "Represents a Transfer in a Booking.",
@@ -3234,8 +3206,7 @@
                         ],
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "TransferStatus": {
                 "description": "The current status of the Transfer.",
@@ -3289,8 +3260,7 @@
                         "maximum": 100,
                         "nullable": true
                     }
-                },
-                "additionalProperties": false
+                }
             },
             "VehicleCode": {
                 "description": "The Suntransfers Vehicle Code.",
