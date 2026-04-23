@@ -88,7 +88,7 @@
                                                     "children": 2,
                                                     "infants": 0,
                                                     "total": 3,
-                                                    "childAges": [
+                                                    "ages": [
                                                         2,
                                                         3
                                                     ]
@@ -162,7 +162,7 @@
                                                     "children": 2,
                                                     "infants": 0,
                                                     "total": 3,
-                                                    "childAges": [
+                                                    "ages": [
                                                         2,
                                                         3
                                                     ]
@@ -249,7 +249,7 @@
                                                     "children": 2,
                                                     "infants": 0,
                                                     "total": 3,
-                                                    "childAges": [
+                                                    "ages": [
                                                         2,
                                                         3
                                                     ]
@@ -501,7 +501,7 @@
                                                     "children": 1,
                                                     "infants": 0,
                                                     "total": 2,
-                                                    "childAges": [
+                                                    "ages": [
                                                         3
                                                     ]
                                                 },
@@ -781,7 +781,7 @@
                                                     "children": 2,
                                                     "infants": 0,
                                                     "total": 3,
-                                                    "childAges": [
+                                                    "ages": [
                                                         2,
                                                         3
                                                     ]
@@ -1200,7 +1200,7 @@
                                                     "children": 2,
                                                     "infants": 0,
                                                     "total": 3,
-                                                    "childAges": [
+                                                    "ages": [
                                                         2,
                                                         3
                                                     ]
@@ -1255,7 +1255,7 @@
                                                     "children": 2,
                                                     "infants": 0,
                                                     "total": 3,
-                                                    "childAges": [
+                                                    "ages": [
                                                         2,
                                                         3
                                                     ]
@@ -1318,7 +1318,7 @@
                                                     "children": 2,
                                                     "infants": 0,
                                                     "total": 3,
-                                                    "childAges": [
+                                                    "ages": [
                                                         2,
                                                         3
                                                     ]
@@ -2549,8 +2549,8 @@
                         "minimum": 0,
                         "maximum": 100
                     },
-                    "childAges": {
-                        "description": "The ages, in years, of the children in the Transfer.",
+                    "ages": {
+                        "description": "The ages, in years, of the children and infants in the Transfer.",
                         "type": "array",
                         "nullable": true,
                         "items": {
@@ -2736,8 +2736,8 @@
                         "minimum": 0,
                         "maximum": 100
                     },
-                    "childAges": {
-                        "description": "The ages, in years, of the children in the Transfer.",
+                    "ages": {
+                        "description": "The ages, in years, of the children and infants in the Transfer.",
                         "type": "array",
                         "nullable": true,
                         "items": {
