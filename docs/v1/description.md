@@ -45,14 +45,16 @@ The push model delivers the same 1,000 bookings while making only ~2% as many re
 
 # Where are the "get bookings" endpoints?
 
-There is intentionally no endpoint to list or fetch your upcoming bookings, because you never need to ask us for them. Under the push model the bookings come to you: we call your `POST /v1/bookings` endpoint when there is a new one, your `PUT` endpoint when one is amended, and your `DELETE` endpoint when one is cancelled. Your job is to host those endpoints and react when we call them, not to go looking for data on our side.
+There is no Suntransfers-hosted API for you to poll for upcoming bookings, because you never need to ask us for them. Under the push model the bookings come to you: we call your `POST /v1/bookings` endpoint when there is a new one, your `PUT` endpoint when one is amended, and your `DELETE` endpoint when one is cancelled. Your job is to host those endpoints and react when we call them, not to poll us for data.
+
+This specification does define a `GET /v1/bookings/{bookingReference}` endpoint, but it is one you host as well: it lets Suntransfers read back the current state of a single, known booking. It is not a way to list or discover upcoming bookings.
 
 # How you acknowledge a booking
 
 You do not need a separate call to confirm that you received or processed a booking. The HTTP response to our request is your acknowledgement.
 
-- If you accept and process the request, return a success status (2xx). For a new booking that is `201 Created`, with your own `supplierReference` in the response so the booking is linked on both sides.
-- If you return an error status (4xx or 5xx), we treat the request as not processed, and we retry or escalate it.
+- If you accept the request, return a success status: `201 Created` when the booking is created, or `202 Accepted` when the request is validated and queued for processing. Include your own `supplierReferences` in the response so the booking is linked on both sides.
+- If you return an error status, we treat the request as not processed. A client error (`4xx`, such as `400` or `401`) means the request must be corrected; a server error (`5xx`, such as `500`) is one we may retry.
 
 The same applies to amendments and cancellations: a 2xx response is your confirmation that you handled it, and an error response tells us you did not. Because the exchange is synchronous, the answer travels back on the same request, so there is nothing extra to call.
 
