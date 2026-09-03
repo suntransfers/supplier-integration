@@ -2408,7 +2408,6 @@
                     "lastName": {
                         "description": "The last name of the Lead Passenger.",
                         "maxLength": 100,
-                        "minLength": 1,
                         "type": "string"
                     },
                     "email": {
