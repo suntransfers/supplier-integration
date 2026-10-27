@@ -5,6 +5,12 @@
 <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
 
 <style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
 body {
 	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
 	font-size: var(--vscode-markdown-font-size, 14px);
@@ -340,7 +346,7 @@ code {
 	font-size: inherit;
 }
 
-/* Page Break : use <div class="page"/> to insert page break
+/* Page Break : use <div class="page"/> or <div class="page"></div> to insert page break
 -------------------------------------------------------- */
 .page {
 	page-break-after: always;
@@ -434,14 +440,14 @@ it. Always required for the <code>DRIVER_LIVE_LOCATION</code> event.</p>
 <h3 id="curl-example">CURL Example</h3>
 <p>This call will execute silently with no response.</p>
 <pre class="hljs"><code><div>curl -X POST https://supplierhub-api.suntransfers.biz/api/v1/suppliers/YOUR_CODE/bookings/SUNTR_AB1234/events \
-  -H <span class="hljs-string">"Content-Type: application/json"</span> \
-  -H <span class="hljs-string">"Authorization: Basic <span class="hljs-variable">$(echo -n 'username:password' | base64)</span>"</span> \
-  -d <span class="hljs-string">'{
-    "eventType": "DRIVER_DEPARTED_TO_PICKUP",
-    "occurredAt": "2025-12-24T14:30:00Z",
-    "latitude": 41.3851,
-    "longitude": 2.1734
-  }'</span>
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Basic <span class="hljs-subst">$(echo -n &#x27;username:password&#x27; | base64)</span>&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;eventType&quot;: &quot;DRIVER_DEPARTED_TO_PICKUP&quot;,
+    &quot;occurredAt&quot;: &quot;2025-12-24T14:30:00Z&quot;,
+    &quot;latitude&quot;: 41.3851,
+    &quot;longitude&quot;: 2.1734
+  }&#x27;</span>
 </div></code></pre>
 <h2 id="response-codes">Response Codes</h2>
 <ul>
@@ -478,7 +484,7 @@ troubleshooting.</p>
 <h2 id="complete-integration">Complete Integration</h2>
 <p>If you're looking to implement the full Suntransfers Supplier API (Bookings, Amendments, Cancellations, Quotes, and Booking Events), refer to our <a href="../../full-integration/docs/">Full Integration</a> docs.</p>
 <h2 id="questions">Questions?</h2>
-<p>Contact <a href="mailto:lucas.dasilva@suntransfers.com">The Supplier Hub Team</a>.</p>
+<p>Contact <a href="mailto:devops@suntransfers.com">The Supplier Hub Team</a> via email.</p>
 
 </body>
 </html>
