@@ -24,4 +24,4 @@ Termination:
 Disclaimer:
 THE SPECIFICATION IS PROVIDED "AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED. SUNTRANSFERS DISCLAIMS ALL LIABILITY ARISING FROM IMPLEMENTATION OR USE OF THIS SPEC.
 
-For licensing questions or clarification, contact: lucas.dasilva@suntransfers.com
+For licensing questions or clarification, contact: devops@suntransfers.com
